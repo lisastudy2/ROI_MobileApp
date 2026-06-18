@@ -22,13 +22,13 @@ return (
     <Text style={styles.welcomeText}>Staff Contacts App</Text>
     <Text style={styles.instruction}>Press a button to get started: </Text>
 
-{/* Menu options NEED TO ADD SCROLLING */}  
+{/* Menu options */}  
     <TouchableOpacity
       style={styles.buttonStyle}
       onPress={() => navigation.navigate('ContactsList')}
       >
-      <Text style={[styles.buttonText, { fontSize: textSize }]}>VIEW CONTACTS</Text> 
-    </TouchableOpacity>
+      <Text style={[styles.buttonText, { fontSize: textSize }]}>VIEW CONTACTS</Text>  
+    </TouchableOpacity> 
 
     <TouchableOpacity 
       style={styles.buttonStyle}
