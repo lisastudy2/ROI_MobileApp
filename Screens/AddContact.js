@@ -68,6 +68,7 @@ const handleAddContact = async () => { const newContact = {id, name, department,
       <View style={styles.divider} />
 {/* End of header section - */}
 
+{/* New contact form. - */}
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }} keyboardShouldPersistTaps="handled">
       <View style={styles.card}>
         <AntDesign name="user-add" size={60} color="black" style={{ alignSelf: 'center'}}/>
@@ -114,8 +115,9 @@ const handleAddContact = async () => { const newContact = {id, name, department,
     </SafeAreaView>
   );
 }
- 
+// End of form.
 
+// Customisation of display. 
 const styles = StyleSheet.create({
   container:      { flex: 1, backgroundColor: '#262626', padding: 16 }, 
   heading:        { fontSize: 20, color: '#FFFFFF', marginBottom: 16 },
