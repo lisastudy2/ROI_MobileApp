@@ -13,7 +13,6 @@ useEffect(() => {
     if (savedSize) {
       setTextSize(parseFloat(savedSize)); } }; loadSettings();}, []);
       
-
 return (
   <SafeAreaView style={styles.container}>
 

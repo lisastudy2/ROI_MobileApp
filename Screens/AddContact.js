@@ -1,27 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text,TouchableOpacity, StyleSheet, Image, TextInput, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AntDesign from '@expo/vector-icons/AntDesign';
  
 export default function ViewScreen({ route, navigation }) {
-  const [textSize, setTextSize] = useState(16);
-  const [id, setID] = useState('');
-  const [name, setName] = useState('');
-  const [department, setDepartment] = useState('');
-  const [phone, setPhone] = useState('');
-  const [addressStreet, setAddressStreet] = useState('');
-  const [addressCity, setAddressCity] = useState('');
-  const [addressState, setAddressState] = useState('');
-  const [addressZIP, setAddressZIP] = useState('');
-  const [addressCountry, setAddressCountry] = useState('');
-  const handleAddContact = async () => { const newContact = {id, name, department, phone, addressStreet, addressCity, addressState, addressZIP, addressCountry};
 
+// Adjusts text size.
+const [textSize, setTextSize] = useState(16);
 useEffect(() => {
   const loadSettings = async () => {
     const savedSize = await AsyncStorage.getItem('textSize');
     if (savedSize) {
       setTextSize(parseFloat(savedSize)); } }; loadSettings();}, []);
+
+// Variables for the form. 
+const [id, setID] = useState('');
+const [name, setName] = useState('');
+const [department, setDepartment] = useState('');
+const [phone, setPhone] = useState('');
+const [addressStreet, setAddressStreet] = useState('');
+const [addressCity, setAddressCity] = useState('');
+const [addressState, setAddressState] = useState('');
+const [addressZIP, setAddressZIP] = useState('');
+const [addressCountry, setAddressCountry] = useState('');
+
+// Saves new contact details - note alert only appears in app view not web view.
+const handleAddContact = async () => { const newContact = {id, name, department, phone, addressStreet, addressCity, addressState, addressZIP, addressCountry};
 
   try { 
     const existing = await AsyncStorage.getItem('contacts');
@@ -36,7 +41,7 @@ useEffect(() => {
 
   }
 };
- 
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView style={{ flex: 1}} behaviour={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -66,9 +71,9 @@ useEffect(() => {
       <View style={styles.card}>
         <AntDesign name="user-add" size={60} color="black" style={{ alignSelf: 'center'}}/>
 
+        <Text style={styles.space}> </Text> 
         <Text style={styles.space}> </Text>
-        <Text style={styles.space}> </Text>
-        <Text style={styles.formFields}>1. What is their ID number? </Text>
+        <Text style={[styles.formFields, { fontSize: textSize }]}>1. What is their ID number? </Text>
         <TextInput style={styles.input} placeholder="ID number" value={id} onChangeText={setID} />
 
         <Text style={styles.space}> </Text>

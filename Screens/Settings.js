@@ -7,9 +7,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Settings({ navigation }) { 
 
-const [textSize, setTextSize] = useState(5);
-const [brightness, setBrightness] = useState(5);
+// Adjust text size. 
+const [textSize, setTextSize] = useState(16);
 
+// Save text adjustments.
 const saveSettings = async () => { 
   try { await AsyncStorage.setItem('textSize', textSize.toString());} 
   catch (e) { console.log('Error with text size'); }};
@@ -18,6 +19,11 @@ useEffect(() => { const loadSettings = async () => {
   const savedSize = await AsyncStorage.getItem('textSize'); 
   if (savedSize) { setTextSize(parseFloat(savedSize));}}; loadSettings();},[]);
  
+
+// Save brightness settings.
+ const [brightness, setBrightness] = useState(5);
+
+// Header section - includes elements which appear on each page + instructions for this page.
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBarContainer}>
@@ -49,22 +55,27 @@ useEffect(() => { const loadSettings = async () => {
       <Text style={styles.space}> </Text>
       <View style={styles.divider} />
 
+{/* End of header section - */}
       <ScrollView>
         <View style={styles.card}>
           <Ionicons name="settings-outline" size={60} color="black" style={{ alignSelf: 'center'}}/>
 
+{/* Slider for adjusting and setting text size. */} 
           <Text style={[styles.generalText, { fontSize: textSize }]}>Text size: </Text>
           <Slider style={{width: 200, height: 40, alignSelf: 'center' }} value={textSize} onValueChange={(value) => setTextSize(value)} minimumValue={12} maximumValue={30} minimumTrackTintColor="#C64C38" maximumTrackTintColor="#262626" thumbSize={20} thumbTintColor="#941A1D" />
 
+{/* Slider for adjusting and setting brightness. */}
           <Text style={[styles.generalText, { fontSize: textSize }]}>Brightness: </Text>
           <Slider style={{width: 200, height: 40, alignSelf: 'center' }} value={brightness} onValueChange={(value) => setBrightness(value)} minimumValue={0} maximumValue={10} minimumTrackTintColor="#C64C38" maximumTrackTintColor="#262626" thumbSize={20} thumbTintColor="#941A1D" />
  
+{/*  Slider for turning sound effects on and off. */}
           <Text style={[styles.generalText, { fontSize: textSize }]}>
             <Text style={{ }}>Sound effects: </Text>
           </Text>
 
         </View>
 
+{/* Save settings. */}
         <TouchableOpacity style={styles.buttonStyle} onPress={saveSettings}>
           <Text style={styles.buttonText}> SAVE </Text>
         </TouchableOpacity>  
@@ -74,6 +85,7 @@ useEffect(() => { const loadSettings = async () => {
   );
 }
 
+// Customisation of display. 
 const styles = StyleSheet.create({
   container:      { flex: 1, backgroundColor: '#262626', padding: 16 }, 
   heading:        { fontSize: 20, color: '#FFFFFF', marginBottom: 16 },
