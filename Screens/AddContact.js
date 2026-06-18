@@ -76,31 +76,31 @@ const handleAddContact = async () => { const newContact = {id, name, department,
         <Text style={styles.space}> </Text> 
         <Text style={styles.space}> </Text>
         <Text style={[styles.formFields, { fontSize: textSize }]}>1. What is their ID number? </Text>
-        <TextInput style={styles.input} placeholder="ID number" value={id} onChangeText={setID} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="ID number" value={id} onChangeText={setID} />
 
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
         <Text style={[styles.formFields, { fontSize: textSize }]}>2. What is their name? </Text>
-        <TextInput style={styles.input} placeholder="First and last name" value={name} onChangeText={setName} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="First and last name" value={name} onChangeText={setName} />
 
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
          <Text style={[styles.formFields, { fontSize: textSize }]}>3. Which department are they in? </Text>
-         <TextInput style={styles.input} placeholder="Department" value={department} onChangeText={setDepartment} />
+         <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Department" value={department} onChangeText={setDepartment} />
 
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
         <Text style={[styles.formFields, { fontSize: textSize }]}>4. What is their phone number? </Text>
-        <TextInput style={styles.input} placeholder="Phone number" value={phone} onChangeText={setPhone} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Phone number" value={phone} onChangeText={setPhone} />
         
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
         <Text style={[styles.formFields, { fontSize: textSize }]}>5. What is their address? </Text>
-        <TextInput style={styles.input} placeholder="Street address" value={addressStreet} onChangeText={setAddressStreet} />
-        <TextInput style={styles.input} placeholder="City" value={addressCity} onChangeText={setAddressCity} />
-        <TextInput style={styles.input} placeholder="State" value={addressState} onChangeText={setAddressState} />
-        <TextInput style={styles.input} placeholder="ZIP" value={addressZIP} onChangeText={setAddressZIP} />
-        <TextInput style={styles.input} placeholder="Country" value={addressCountry} onChangeText={setAddressCountry} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Street address" value={addressStreet} onChangeText={setAddressStreet} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="City" value={addressCity} onChangeText={setAddressCity} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="State" value={addressState} onChangeText={setAddressState} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="ZIP" value={addressZIP} onChangeText={setAddressZIP} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Country" value={addressCountry} onChangeText={setAddressCountry} />
       </View>
 
         <TouchableOpacity style={styles.buttonStyle} onPress={handleAddContact}>
