@@ -73,8 +73,9 @@ return (
     <Text style={styles.space}> </Text>
     <TextInput style={styles.searchInput} placeholder="Search" value={searchText} onChangeText={setSearchText}/>
     <View style={styles.divider} />
-{/* End of header section - */}
+{/* End of header section */}
 
+{/* Display of contacts list. */}
   <FlatList
     style={{ flex: 1 }}
     data={filteredContacts}
@@ -94,7 +95,9 @@ return (
   </SafeAreaView>
 );
 }
+// End of contacts list. 
 
+// Customisation of display. 
 const styles = StyleSheet.create({
   container:      { flex: 1, backgroundColor: '#262626', padding: 16 }, 
   heading:        { fontSize: 20,  color: '#FFFFFF', marginBottom: 16 },

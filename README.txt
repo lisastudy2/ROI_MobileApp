@@ -1,3 +1,3 @@
 README
 
-Delete the other readme which was uploaded to GitHub. 
+Remember to fill this in. 
