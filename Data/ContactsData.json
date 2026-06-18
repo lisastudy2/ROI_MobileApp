@@ -1,0 +1,92 @@
+
+{
+  "contacts": [
+  {
+    "id": "1",
+    "name": "John Smith",
+    "phone": "02 9988 2211",
+    "department": "Information Communications Technology",
+    "addressStreet": "1 Code Lane",
+    "addressCity": "Javaville",
+    "addressState": "NSW",
+    "addressZIP": "0100",
+    "addressCountry": "Australia"
+  },
+  {
+    "id": "2",
+    "name": "Sue White",
+    "phone": "03 8899 2255",
+    "department": "Finance",
+    "addressStreet": "16 Bit Way",
+    "addressCity": "Byte Cove",
+    "addressState": "QLD",
+    "addressZIP": "1101",
+    "addressCountry": "Australia"
+  },
+  {
+    "id": "3",
+    "name": "Bob O'Bits",
+    "phone": "05 7788 2255",
+    "department": "Marketing",
+    "addressStreet": "8 Silicon Road",
+    "addressCity": "Cloud Hills",
+    "addressState": "VIC",
+    "addressZIP": "1001",
+    "addressCountry": "Australia"
+  },
+  {
+    "id": "4",
+    "name": "Mary Blue",
+    "phone": "06 4455 9988",
+    "department": "Finance",
+    "addressStreet": "4 Processor Boulevard",
+    "addressCity": "Appleston",
+    "addressState": "NT",
+    "addressZIP": "1010",
+    "addressCountry": "Australia"
+  },
+  {
+    "id": "5",
+    "name": "Mick Green",
+    "phone": "02 9988 1122",
+    "department": "Marketing",
+    "addressStreet": "700 Bandwidth Street",
+    "addressCity": "Bufferland",
+    "addressState": "NSW",
+    "addressZIP": "0110",
+    "addressCountry": "Australia"
+  },
+  {
+    "id": "6",
+    "name": "Homer Simpson",
+    "phone": "02 7894 4568",
+    "department": "Human Resources",
+    "addressStreet": "742 Evergreen Terrace",
+    "addressCity": "Springfield",
+    "addressState": "NSW",
+    "addressZIP": "1122",
+    "addressCountry": "Australia"
+  },
+  {
+    "id": "7",
+    "name": "Ned Flanders",
+    "phone": "02 9875 4568",
+    "department": "Information Communications Technology",
+    "addressStreet": "784 Evergreen Terrace",
+    "addressCity": "Springfield",
+    "addressState": "NSW",
+    "addressZIP": "1122",
+    "addressCountry": "Australia"
+  },
+  {
+    "id": "8",
+    "name": "Patty Bouvier",
+    "phone": "02 4578 6523",
+    "department": "Human Resources",
+    "addressStreet": "1599 Spin Street",
+    "addressCity": "Springfield",
+    "addressState": "NSW",
+    "addressZIP": "2211",
+    "addressCountry": "Australia"
+  }
+]}
