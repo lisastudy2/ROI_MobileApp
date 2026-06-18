@@ -4,16 +4,19 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ContactsData from '../Data/ContactsData.json';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
- 
 export default function Home({ navigation }) {
-  const [textSize, setTextSize] = useState(16);
-  const [contacts, setContacts] = useState([]);
-  const [searchText, setSearchText] = useState('');
-  const filteredContacts = contacts.filter(contact =>
+
+const [contacts, setContacts] = useState([]);
+
+// Search functionality.
+const [searchText, setSearchText] = useState('');
+const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(searchText.toLowerCase())
     );
-  const loadContacts = async () => {
-    const data = await AsyncStorage.getItem('contacts');
+
+// Loading contacts list. 
+const loadContacts = async () => {
+  const data = await AsyncStorage.getItem('contacts');
     if (data) {
       setContacts(JSON.parse(data));
     }
@@ -28,12 +31,15 @@ export default function Home({ navigation }) {
     return stop;
   }, [navigation]);
 
-  useEffect(() => {
+// Display saved text settings.
+const [textSize, setTextSize] = useState(16);
+useEffect(() => {
   const loadSettings = async () => {
     const savedSize = await AsyncStorage.getItem('textSize');
     if (savedSize) {
       setTextSize(parseFloat(savedSize)); } }; loadSettings();}, []);
   
+// Header section - includes elements which appear on each page + instructions for this page.
 return (
   <SafeAreaView style={styles.container}>
 
@@ -54,13 +60,13 @@ return (
     </View>
     </View>
 
-
     <Text style={styles.heading}>EDIT CONTACTS</Text>
     <Text style={styles.instruction}>Select a name to edit contact details. </Text>
     <Text style={styles.space}> </Text>
     <TextInput style={styles.searchInput} placeholder="Search" value={searchText} onChangeText={setSearchText}/>
     <View style={styles.divider} />
 
+{/* End of header section - */}
   <FlatList
     style={{ flex: 1 }}
     data={filteredContacts}

@@ -7,10 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Settings({ navigation }) { 
 
-// Adjust text size. 
+// Saving text size adjustments.
 const [textSize, setTextSize] = useState(16);
-
-// Save text adjustments.
 const saveSettings = async () => { 
   try { await AsyncStorage.setItem('textSize', textSize.toString());} 
   catch (e) { console.log('Error with text size'); }};
@@ -54,8 +52,8 @@ useEffect(() => { const loadSettings = async () => {
       </Text>
       <Text style={styles.space}> </Text>
       <View style={styles.divider} />
-
 {/* End of header section - */}
+
       <ScrollView>
         <View style={styles.card}>
           <Ionicons name="settings-outline" size={60} color="black" style={{ alignSelf: 'center'}}/>

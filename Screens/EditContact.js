@@ -35,6 +35,7 @@ export default function ViewScreen({ route, navigation }) {
     
   };
 
+// Header section - includes elements which appear on each page + instructions for this page.
   return (
     <SafeAreaView style={styles.container}>
 
@@ -59,6 +60,7 @@ export default function ViewScreen({ route, navigation }) {
       <Text style={styles.instruction}>Update the details and save your changes.</Text>
       <Text style={styles.space}> </Text>
       <View style={styles.divider} />
+{/* End of header section - */}
 
       <ScrollView>
       <View style={styles.card}>

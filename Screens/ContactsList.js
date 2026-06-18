@@ -47,6 +47,7 @@ export default function Home({ navigation }) {
     return stop;
   }, [navigation]);
 
+// Header section - includes elements which appear on each page + instructions for this page.
 return (
   <SafeAreaView style={styles.container}>
   
@@ -72,6 +73,7 @@ return (
     <Text style={styles.space}> </Text>
     <TextInput style={styles.searchInput} placeholder="Search" value={searchText} onChangeText={setSearchText}/>
     <View style={styles.divider} />
+{/* End of header section - */}
 
   <FlatList
     style={{ flex: 1 }}

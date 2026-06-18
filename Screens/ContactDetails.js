@@ -7,6 +7,7 @@ export default function ViewScreen({ route, navigation }) {
   const { entry } = route.params;
   const [textSize, setTextSize] = useState(16);
 
+// Header section - includes elements which appear on each page + instructions for this page.
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBarContainer}>
@@ -37,6 +38,7 @@ export default function ViewScreen({ route, navigation }) {
       </Text>
       <Text style={styles.space}> </Text>
       <View style={styles.divider} />
+{/* End of header section - */}
 
       <ScrollView>
         <View style={styles.card}> 

@@ -66,6 +66,7 @@ const handleAddContact = async () => { const newContact = {id, name, department,
       <Text style={styles.instruction}>Please fill in details of new contact and save.</Text>
       <Text style={styles.space}> </Text>
       <View style={styles.divider} />
+{/* End of header section - */}
 
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }} keyboardShouldPersistTaps="handled">
       <View style={styles.card}>
