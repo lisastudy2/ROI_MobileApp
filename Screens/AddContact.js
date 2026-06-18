@@ -79,22 +79,22 @@ const handleAddContact = async () => { const newContact = {id, name, department,
 
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
-        <Text style={styles.formFields}>2. What is their name? </Text>
+        <Text style={[styles.formFields, { fontSize: textSize }]}>2. What is their name? </Text>
         <TextInput style={styles.input} placeholder="First and last name" value={name} onChangeText={setName} />
 
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
-         <Text style={styles.formFields}>3. Which department are they in? </Text>
+         <Text style={[styles.formFields, { fontSize: textSize }]}>3. Which department are they in? </Text>
          <TextInput style={styles.input} placeholder="Department" value={department} onChangeText={setDepartment} />
 
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
-        <Text style={styles.formFields}>4. What is their phone number? </Text>
+        <Text style={[styles.formFields, { fontSize: textSize }]}>4. What is their phone number? </Text>
         <TextInput style={styles.input} placeholder="Phone number" value={phone} onChangeText={setPhone} />
         
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
-        <Text style={styles.formFields}>5. What is their address? </Text>
+        <Text style={[styles.formFields, { fontSize: textSize }]}>5. What is their address? </Text>
         <TextInput style={styles.input} placeholder="Street address" value={addressStreet} onChangeText={setAddressStreet} />
         <TextInput style={styles.input} placeholder="City" value={addressCity} onChangeText={setAddressCity} />
         <TextInput style={styles.input} placeholder="State" value={addressState} onChangeText={setAddressState} />
