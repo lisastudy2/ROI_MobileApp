@@ -1,35 +1,22 @@
 import { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, TextInput, ScrollView, Alert } from 'react-native';
+import { View, Text,TouchableOpacity, StyleSheet, Image, TextInput, ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import AntDesign from '@expo/vector-icons/AntDesign';
  
+ // Contact details which need to pre-fill the form.
 export default function ViewScreen({ route, navigation }) {
-
-// Display saved text settings.
-const [textSize, setTextSize] = useState(16);
-useEffect(() => {
-  const unsubscribe = navigation.addListener('focus', async () => {
-    const savedSize = await AsyncStorage.getItem('textSize');
-    if (savedSize) {
-      setTextSize(parseFloat(savedSize)); 
-      }}); 
-      return unsubscribe;}, [navigation]);
-
-  const { id } = route.params;
-
-  const [idState, setID] = useState('');
-  const [name, setName] = useState('');
-  const [department, setDepartment] = useState('');
-  const [phone, setPhone] = useState('');
-  const [addressStreet, setAddressStreet] = useState('');
-  const [addressCity, setAddressCity] = useState('');
-  const [addressState, setAddressState] = useState('');
-  const [addressZIP, setAddressZIP] = useState('');
-  const [addressCountry, setAddressCountry] = useState('');
-
-
-// Saving contact details. 
+  const { entry } = route.params;
+  const [id, setID] = useState(entry.id);
+  const [name, setName] = useState(entry.name);
+  const [department, setDepartment] = useState(entry.department);
+  const [phone, setPhone] = useState(entry.phone);
+  const [addressStreet, setAddressStreet] = useState(entry.addressStreet);
+  const [addressCity, setAddressCity] = useState(entry.addressCity);
+  const [addressState, setAddressState] = useState(entry.addressState);
+  const [addressZIP, setAddressZIP] = useState(entry.addressZIP);
+  const [addressCountry, setAddressCountry] = useState(entry.addressCountry);
   const handleUpdateContact = async () => {
     try { 
       const existing = await AsyncStorage.getItem('contacts');
@@ -40,8 +27,6 @@ useEffect(() => {
         ? {id, name, department, phone, addressStreet, addressCity, addressState, addressZIP, addressCountry}: contact);
 
       await AsyncStorage.setItem('contacts', JSON.stringify(updatedContacts));
-
-      alert('Success! Contact has been saved');
 
       navigation.navigate('ContactsList');
 
@@ -74,37 +59,48 @@ useEffect(() => {
         console.log('Error deleting:', error);
       }}}
     ]);};
-    
 
-// Header section - includes elements which appear on each page + instructions for this page.
+// Display saved text settings.
+const [textSize, setTextSize] = useState(16);
+useEffect(() => {
+  const unsubscribe = navigation.addListener('focus', async () => {
+    const savedSize = await AsyncStorage.getItem('textSize');
+    if (savedSize) {
+      setTextSize(parseFloat(savedSize)); 
+      }}); 
+      return unsubscribe;}, [navigation]);
+
+
   return (
-// Keyboard pop-up does not cover text on screen.
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView style={{ flex: 1}} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-
-      <View style={styles.topBarContainer}> 
-
-      <View style={[styles.topBarCell, {alignItems: 'flex-start'}]}>
+      <SafeAreaView style={styles.container}>
+      <View style={styles.topBarContainer}>
+        <View style={[styles.topBarCell, { alignItems: 'flex-start' }]}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image source={require('../assets/images/backButton.png')} style={styles.backButton}/>
+            <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
+            
           </TouchableOpacity>
         </View>
-      
+
+{/*} Home button is on screens where the user is more than 1 screen away from the Home (so this way we do not have 3 buttons [back, home and the logo] which all go Home on the same screen - the logo has also been setup to take users Home too on every screen).*/}
+    <View style={[styles.topBarCell, { marginLeft: 10}]}> 
+      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <AntDesign name="home" size={30} color="#FFFFFF" />
+      </TouchableOpacity>
+    </View>
+
         <View style={{ flex: 1 }} />
-        
-        <View style={styles.topBarCell}> 
+
+        <View style={styles.topBarCell}>
           <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Image source={require('../assets/images/roiLogo.jpg')} style={styles.logo}/>
+            <Image
+              source={require('../assets/images/roiLogo.jpg')}
+              style={styles.logo}
+            />
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView>
-      <Text style={[styles.heading, { fontSize: textSize }]}>EDIT CONTACT DETAILS</Text>
-      <Text style={[styles.instruction, { fontSize: textSize }]}>Update the details and save your changes.</Text>
-      <Text style={styles.space}> </Text>
-      <View style={styles.divider} />
-{/* End of header section - */}
 
+<ScrollView>
 
       <View style={styles.card}>
         <Image source={require('../assets/images/editIcon.png')} style={styles.icon} />
@@ -140,22 +136,19 @@ useEffect(() => {
       </View>
 
         <TouchableOpacity style={styles.buttonStyle} onPress={handleUpdateContact}>
-          <Text style={[styles.buttonText, { fontSize: textSize }]}> SAVE UPDATES </Text>
+          <Text style={styles.buttonText}> SAVE UPDATES </Text>
         </TouchableOpacity> 
         
-        <Text style={styles.space}> </Text> 
         <Text style={styles.space}> </Text>
 
         <TouchableOpacity style={styles.buttonStyle} onPress={handleDeleteContact}>
-          <Text style={[styles.buttonText, { fontSize: textSize }]}> DELETE CONTACT </Text>
-        </TouchableOpacity> 
-        
+        <Text style={[styles.buttonText, { fontSize: textSize }]}> DELETE CONTACT </Text>
+        </TouchableOpacity>
+        <Text style={styles.space}> </Text> 
         <Text style={styles.space}> </Text>
-        <Text style={styles.space}> </Text>
-      
+
         </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+    </SafeAreaView> 
   );
 }
  
@@ -182,5 +175,3 @@ const styles = StyleSheet.create({
   topBarContainer:{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 },
   backButton:     { width: 80, height: 40, resizeMode: 'contain', marginHorizontal: -16 },
 });
-
-

@@ -3,6 +3,7 @@ import { View, Text,TouchableOpacity, StyleSheet, Image, TextInput, ScrollView, 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import Ionicons from '@expo/vector-icons/Ionicons';
  
 export default function ViewScreen({ route, navigation }) {
 
@@ -42,8 +43,9 @@ const handleAddContact = async () => { const newContact = {id, name, department,
     console.log('Error saving:', error);
 
   }
-};
+}; 
 
+// Header.
   return (
 // Keyboard pop-up does not cover text on screen.
     <SafeAreaView style={styles.container}>
@@ -54,7 +56,7 @@ const handleAddContact = async () => { const newContact = {id, name, department,
 
         <View style={[styles.topBarCell, {alignItems: 'flex-start'}]}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image source={require('../assets/images/backButton.png')} style={styles.backButton}/>
+          <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
           </TouchableOpacity>
         </View>
       
@@ -144,7 +146,6 @@ const styles = StyleSheet.create({
   input:          { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#262626', borderRadius: 10, padding: 10, marginVertical:5},
   logo:           { width: 110, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },
   topBarContainer:{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 },
-  backButton:     { width: 80, height: 40, resizeMode: 'contain', marginHorizontal: -16 },
 });
 
 

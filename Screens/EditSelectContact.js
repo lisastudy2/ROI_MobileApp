@@ -3,6 +3,7 @@ import { View, Text,TouchableOpacity, FlatList, StyleSheet, TextInput, Image } f
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ContactsData from '../Data/ContactsData.json';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function Home({ navigation }) {
 
@@ -40,7 +41,7 @@ useEffect(() => {
       }}); 
       return unsubscribe;}, [navigation]);
   
-// Header section - includes elements which appear on each page + instructions for this page.
+// Header section
 return (
   <SafeAreaView style={styles.container}>
 
@@ -48,7 +49,7 @@ return (
 
       <View style={[styles.topBarCell, {alignItems: 'flex-start'}]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-         <Image source={require('../assets/images/backButton.png')} style={styles.backButton}/>
+          <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
         </TouchableOpacity>
       </View>
      
@@ -110,6 +111,5 @@ const styles = StyleSheet.create({
   divider:        { height: 5, backgroundColor: '#CB6D4f', marginVertical: 15 },
   icon:           { width: 60, height: 75, resizeMode: 'contain', alignSelf: 'flex-start', marginLeft: 1 },
   logo:           { width: 100, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },
-  topBarContainer:{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 },
-  backButton:     { width: 80, height: 40, resizeMode: 'contain', marginHorizontal: -16 }
+  topBarContainer:{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }
 });

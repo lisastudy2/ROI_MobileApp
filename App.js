@@ -15,27 +15,28 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  // Approved font setup.
+  const [fontsLoaded] = useFonts({
+    courierPrimeBold: require('./assets/fonts/CourierPrime-Bold.ttf'),
+  });
+  if (!fontsLoaded) {
+    return null;
+  }
 
-// Approved font setup. 
-const [fontsLoaded] = useFonts({ courierPrimeBold: require('./assets/fonts/CourierPrime-Bold.ttf'),}); 
-if (!fontsLoaded) { return null; } 
-
-// Navigation setup.
-  return (  
+  // Navigation setup.
+  return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
-      
-        <Stack.Screen name="Home"  component={Home} /> 
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="ContactsList" component={ContactsList} />
-        <Stack.Screen name="ContactDetails"  component={ContactDetails} />
+        <Stack.Screen name="ContactDetails" component={ContactDetails} />
         <Stack.Screen name="AddContact" component={AddContact} />
-        <Stack.Screen name="EditSelectContact"  component={EditSelectContact} />
-        <Stack.Screen name="EditContact"  component={EditContact} />
+        <Stack.Screen name="EditSelectContact" component={EditSelectContact} />
+        <Stack.Screen name="EditContact" component={EditContact} />
         <Stack.Screen name="Settings" component={Settings} />
-
       </Stack.Navigator>
-    </NavigationContainer> 
-
+    </NavigationContainer>
   );
 }
-

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function ViewScreen({ route, navigation }) {
   const { entry } = route.params;
@@ -16,18 +18,23 @@ useEffect(() => {
       }}); 
       return unsubscribe;}, [navigation]);
 
-// Header section - includes elements which appear on each page + instructions for this page.
+// Header section.
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBarContainer}>
         <View style={[styles.topBarCell, { alignItems: 'flex-start' }]}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image
-              source={require('../assets/images/backButton.png')}
-              style={styles.backButton}
-            />
+            <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
+            
           </TouchableOpacity>
         </View>
+
+{/*} Home button is on screens where the user is more than 1 screen away from the Home (so this way we do not have 3 buttons [back, home and the logo] which all go Home on the same screen - the logo has also been setup to take users Home too on every screen).*/}
+    <View style={[styles.topBarCell, { marginLeft: 10}]}> 
+      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <AntDesign name="home" size={30} color="#FFFFFF" />
+      </TouchableOpacity>
+    </View>
 
         <View style={{ flex: 1 }} />
 
@@ -95,6 +102,5 @@ const styles = StyleSheet.create({
   nameField:      { color: '#262626', lineHeight: 26, fontWeight: 'bold' },
   otherFields:    {color: '#262626', lineHeight: 26, fontWeight: 'bold' },
   logo:           { width: 100, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },
-  topBarContainer:{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 },
-  backButton:     { width: 80, height: 40, resizeMode: 'contain', marginHorizontal: -16 },
+  topBarContainer:{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }
 });

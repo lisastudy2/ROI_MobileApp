@@ -4,6 +4,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Brightness from 'expo-brightness';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import Feather from '@expo/vector-icons/Feather';
 
 export default function Settings({ navigation }) { 
 
@@ -21,6 +24,7 @@ useEffect(() => {
       if (savedSize) { 
         setTextSize(parseFloat(savedSize));} 
   
+  // Saving brightness adjustments. 
   const savedBrightness = await AsyncStorage.getItem('brightness');
   if (savedBrightness) { 
     const value = parseFloat(savedBrightness); 
@@ -33,12 +37,9 @@ useEffect(() => {
     
   loadSettings();},[]);
  
-
-// Save brightness settings.
  const [brightness, setBrightness] = useState(0.5);
 
- 
-const changeBrightness = async (value) => {
+  const changeBrightness = async (value) => {
   try {
     await Brightness.requestPermissionsAsync();
     await Brightness.setSystemBrightnessAsync(value);
@@ -46,8 +47,7 @@ const changeBrightness = async (value) => {
   } catch (e) {
     console.log('Brightness error', e);
   }
-};
-
+  };
 
 
 // Header section - includes elements which appear on each page + instructions for this page.
@@ -56,10 +56,7 @@ const changeBrightness = async (value) => {
       <View style={styles.topBarContainer}>
         <View style={[styles.topBarCell, { alignItems: 'flex-start' }]}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image
-              source={require('../assets/images/backButton.png')}
-              style={styles.backButton}
-            />
+          <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
           </TouchableOpacity>
         </View>
 
@@ -87,12 +84,21 @@ const changeBrightness = async (value) => {
 </Text>
 
 
-        <View style={styles.card}> 
-          <Ionicons name="settings-outline" size={60} color="black" style={{ alignSelf: 'center'}}/>
+<View style={styles.card}> 
+    <Ionicons name="settings-outline" size={60} color="black" style={{ alignSelf: 'center'}}/>
+    <Text style={styles.space}> </Text>
+    <Text style={[styles.generalText, { fontSize: textSize }]}>
+    Remember to press Save below.
+    </Text>
+    <Text style={styles.space}> </Text>
+    <View style={styles.divider2} />
 
 {/* I tried using a slider originally (@react-native-community/slider), however it would only work in the Web preview, then I tried another which also did not want to work, so I switched to a text-based button method for adjusting these settings. */} 
 
+{/* Because my solution is so text heavy - I thought adding icons might help to help users at a quick glance know what these settings are for. */} 
+
 {/* Text size adjuster. */} 
+    <FontAwesome5 name="text-height" size={30} color="black" style={{ alignSelf: 'center'}}/>
     <Text style={styles.space}> </Text>
     <Text style={[styles.generalText, { fontSize: textSize, fontWeight: 'bold' }]}> Text size </Text>
     <Text style={styles.space}> </Text>
@@ -101,54 +107,59 @@ const changeBrightness = async (value) => {
     </Text>
     <Text style={styles.space}> </Text>
     <View style={styles.levelAdjuster}>
-      <TouchableOpacity style={styles.levelButton} onPress={() => setTextSize(prev => Math.max (12, prev - 1))}>
-      <Text style={[styles.levelText, { fontSize: textSize }]}>[-]   </Text> 
-      </TouchableOpacity>
+     <TouchableOpacity style={styles.levelButton} onPress={() => setTextSize(prev => Math.max (12, prev - 1))}>
+    <Text style={[styles.levelText, { fontSize: textSize }]}>[-]   </Text> 
+    </TouchableOpacity>
 
-      <Text style={[styles.levelValue, { fontSize: textSize }]}>
-        or
-      </Text>
+    <Text style={[styles.levelValue, { fontSize: textSize }]}>or</Text>
  
-    <TouchableOpacity
-      style={styles.levelButton}
-      onPress={() => setTextSize(prev => Math.min(30, prev + 1))}
-    >
-      <Text style={[styles.levelText, { fontSize: textSize }]}>   [+]</Text>
+    <TouchableOpacity style={styles.levelButton} onPress={() => setTextSize(prev => Math.min(30, prev + 1))} >
+    <Text style={[styles.levelText, { fontSize: textSize }]}>   [+]</Text>
     </TouchableOpacity>
     </View>
     <Text style={styles.space}> </Text>
 
-  <Text style={[styles.generalText, { fontSize: textSize }]}>
+    <Text style={[styles.generalText, { fontSize: textSize }]}>
     Then press Save below. 
-  </Text>
+    </Text>
         <View style={styles.divider2} />
 
 {/* Brightness adjuster. */}
+    <AntDesign name="sun" size={50} color="black" style={{ alignSelf: 'center'}}/>
+    <Text style={styles.space}> </Text>
     <Text style={[styles.generalText, { fontSize: textSize, fontWeight: 'bold'  }]}>Brightness: </Text>
+    <Text style={styles.space}> </Text>
+    <Text style={[styles.generalText, { fontSize: textSize }]}>
+      Press - and + symbols to adjust screen brightness. 
+    </Text>
     <Text style={styles.space}> </Text>
     <View style={styles.levelAdjuster}>
     <TouchableOpacity onPress={() => changeBrightness(Math.max(0, brightness - 0.1 ))}>
     <Text style={[styles.levelText, { fontSize : textSize }]}>[-]   </Text> </TouchableOpacity>
 
-      <Text style={styles.space}> </Text>
-      <Text style={[styles.generalText, { fontSize: textSize }]}> or </Text>
+    <Text style={styles.space}> </Text>
+    <Text style={[styles.generalText, { fontSize: textSize }]}> or </Text>
 
     <TouchableOpacity onPress={() => changeBrightness(Math.min(1, brightness + 0.1))}>
     <Text style={[styles.levelText, { fontSize: textSize }]}>   [+]</Text> </TouchableOpacity>
     </View>  
   
-      <Text style={styles.space}> </Text>
-        <Text style={[styles.generalText, { fontSize: textSize }]}>
+    <Text style={styles.space}> </Text>
+    <Text style={[styles.generalText, { fontSize: textSize }]}>
     Then press Save below. 
-  </Text>
-        <View style={styles.divider2} />
-      <Text style={styles.space}> </Text>
+    </Text>
+    <View style={styles.divider2} />
+    <Text style={styles.space}> </Text>
 
 
 {/*  Sound effects adjuster. */}
-          <Text style={[styles.generalText, { fontSize: textSize }]}>
-            <Text style={{ }}>Sound effects: </Text>
-          </Text> 
+    <Text style={styles.space}> </Text> 
+    <Text style={[styles.generalText, { fontSize: textSize, fontWeight: 'bold'  }]}>Sound effects: </Text>
+    <Text style={styles.space}> </Text>
+    <Text style={[styles.generalText, { fontSize: textSize }]}>
+      Would you like sound effects turned on? 
+    </Text>
+    <Text style={styles.space}> </Text>
           
 
 </View>
@@ -180,7 +191,6 @@ const styles = StyleSheet.create({
   input:          { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#262626', borderRadius: 10, padding: 10, marginVertical:5},
   logo:           { width: 110, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },
   topBarContainer:{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 },
-  backButton:     { width: 80, height: 40, resizeMode: 'contain', marginHorizontal: -16 },
   generalText:    { color: "#262626", textAlign: 'center'},
   levelAdjuster:  { color: "#262626", textAlign: 'center', flexDirection: 'row', alignItems: 'center', alignSelf: 'center', justifyContent:' center', marginVertical: 0 },
   levelButton:    { color: "#262626", textAlign: 'center' },
