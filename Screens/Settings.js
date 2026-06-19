@@ -45,7 +45,7 @@ useEffect(() => { const loadSettings = async () => {
           </TouchableOpacity>
         </View>
       </View>
-
+      <ScrollView>
       <Text style={styles.heading}>CHANGE SETTINGS</Text>
       <Text style={styles.instruction}>
         Update settings below and press Save.{' '}
@@ -54,7 +54,7 @@ useEffect(() => { const loadSettings = async () => {
       <View style={styles.divider} />
 {/* End of header section - */}
 
-      <ScrollView>
+
         <View style={styles.card}>
           <Ionicons name="settings-outline" size={60} color="black" style={{ alignSelf: 'center'}}/>
 
@@ -75,7 +75,7 @@ useEffect(() => { const loadSettings = async () => {
 
 {/* Save settings. */}
         <TouchableOpacity style={styles.buttonStyle} onPress={saveSettings}>
-          <Text style={styles.buttonText}> SAVE </Text>
+          <Text style={[styles.buttonText, { fontSize: textSize }]}> SAVE </Text>
         </TouchableOpacity>  
 
       </ScrollView>

@@ -43,8 +43,10 @@ const handleAddContact = async () => { const newContact = {id, name, department,
 };
 
   return (
+// Keyboard pop-up does not cover text on screen.
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView style={{ flex: 1}} behaviour={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <KeyboardAvoidingView style={{ flex: 1}} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      
       <View style={styles.topBarContainer}> 
 
         <View style={[styles.topBarCell, {alignItems: 'flex-start'}]}>
@@ -62,6 +64,8 @@ const handleAddContact = async () => { const newContact = {id, name, department,
         </View>
       </View>
 
+      <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }} keyboardShouldPersistTaps="handled">
+
       <Text style={styles.heading}>ADD NEW CONTACT</Text>
       <Text style={styles.instruction}>Please fill in details of new contact and save.</Text>
       <Text style={styles.space}> </Text>
@@ -69,7 +73,6 @@ const handleAddContact = async () => { const newContact = {id, name, department,
 {/* End of header section - */}
 
 {/* New contact form. - */}
-      <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }} keyboardShouldPersistTaps="handled">
       <View style={styles.card}>
         <AntDesign name="user-add" size={60} color="black" style={{ alignSelf: 'center'}}/>
 

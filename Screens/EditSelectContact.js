@@ -60,24 +60,29 @@ return (
     </View>
     </View>
 
+  <FlatList
+    style={{ flex: 1 }}
+    data={filteredContacts}
+    keyExtractor={(item) => item.id}
+
+    ListHeaderComponent={
+      <>
     <Text style={styles.heading}>EDIT CONTACTS</Text>
     <Text style={styles.instruction}>Select a name to edit contact details. </Text>
     <Text style={styles.space}> </Text>
     <TextInput style={styles.searchInput} placeholder="Search" value={searchText} onChangeText={setSearchText}/>
     <View style={styles.divider} />
+      </> 
+    }
+// End of header section 
 
-{/* End of header section - */}
-  <FlatList
-    style={{ flex: 1 }}
-    data={filteredContacts}
-    keyExtractor={(item) => item.id}
     renderItem={({ item }) => (
       <View style={styles.card}>
         <TouchableOpacity style={styles.cardContent} onPress={() => navigation.navigate('EditContact', { entry: item })}>
         <Image source={require('../assets/images/editIcon.png')} style={styles.icon}/>
         <View style={styles.cardContainer}>
-        <Text style={styles.cardName}>{item.name}</Text>
-        <Text style={styles.cardDepartment}>{item.department}</Text>
+        <Text style={[styles.cardName, { fontSize: textSize }]}>{item.name}</Text>
+        <Text style={[styles.cardDepartment, { fontSize: textSize - 5 }]}>{item.department}</Text>
         </View>
       </TouchableOpacity>
       </View>
@@ -93,7 +98,7 @@ const styles = StyleSheet.create({
   heading:        { fontSize: 20, color: '#FFFFFF', marginBottom: 16 },
   instruction:    { fontSize: 20, color: '#FFFFFF', lineHeight: 26 },
   buttonStyle:    { backgroundColor: '#FFFFFF', borderRadius: 12, padding: 16,alignItems: 'center', marginTop: 12 },
-  buttonText:     { color: '#fff', fontSize: 16 },
+  buttonText:     { color: '#262626' },
   card:           { backgroundColor: "#FFFFFF",paddingVertical: 10, paddingHorizontal: 5, borderRadius: 10, marginBottom: 10, marginRight: 16},
   cardContent:    { flex:1, flexDirection: 'row', alignItems: 'center' },
   cardName:       { fontSize: 20, marginLeft: 2},

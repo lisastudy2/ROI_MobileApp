@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { View, Text,TouchableOpacity, StyleSheet, Image, TextInput, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { KeyboardAvoidingView, Platform } from 'react-native';
  
 export default function ViewScreen({ route, navigation }) {
   const [textSize, setTextSize] = useState(16);
@@ -37,11 +38,13 @@ export default function ViewScreen({ route, navigation }) {
 
 // Header section - includes elements which appear on each page + instructions for this page.
   return (
+// Keyboard pop-up does not cover text on screen.
     <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView style={{ flex: 1}} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 
       <View style={styles.topBarContainer}> 
 
-        <View style={[styles.topBarCell, {alignItems: 'flex-start'}]}>
+      <View style={[styles.topBarCell, {alignItems: 'flex-start'}]}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image source={require('../assets/images/backButton.png')} style={styles.backButton}/>
           </TouchableOpacity>
@@ -55,14 +58,14 @@ export default function ViewScreen({ route, navigation }) {
           </TouchableOpacity>
         </View>
       </View>
-
+      <ScrollView>
       <Text style={styles.heading}>EDIT CONTACT DETAILS</Text>
       <Text style={styles.instruction}>Update the details and save your changes.</Text>
       <Text style={styles.space}> </Text>
       <View style={styles.divider} />
 {/* End of header section - */}
 
-      <ScrollView>
+
       <View style={styles.card}>
         <Image source={require('../assets/images/editIcon.png')} style={styles.icon} />
 
@@ -104,7 +107,7 @@ export default function ViewScreen({ route, navigation }) {
         <Text style={styles.space}> </Text>
       
         </ScrollView>
- 
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

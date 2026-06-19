@@ -1,85 +1,122 @@
 import { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, } from 'react-native';
+import { View, Text,TouchableOpacity, FlatList, StyleSheet, TextInput, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ContactsData from '../Data/ContactsData.json';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function ViewScreen({ route, navigation }) {
-  const { entry } = route.params;
+ 
+export default function Home({ navigation }) {
   const [textSize, setTextSize] = useState(16);
+  const [contacts, setContacts] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+  const loadContacts = async () => {
+    try { const data = await AsyncStorage.getItem('contacts');
+    if (data !== null) {
+      const storedContacts = JSON.parse(data);
+
+    if (storedContacts.length < ContactsData.contacts.length) {
+      const merged = [...ContactsData.contacts, ...storedContacts];
+
+    await AsyncStorage.setItem('contacts', JSON.stringify(merged));
+    setContacts(merged); 
+    } else { 
+      setContacts(storedContacts);
+  } 
+
+  } else { 
+    await AsyncStorage.setItem( 
+      'contacts', 
+      JSON.stringify(ContactsData.contacts)
+      );
+      setContacts(ContactsData.contacts);
+  } 
+  }catch (error) {
+    console.log('Error loading: ', error);
+  }
+  };
+ 
+  useEffect(() => {
+    loadContacts();
+  }, []);
+
+  useEffect(() => { 
+    const stop = navigation.addListener('focus', loadContacts);
+    return stop;
+  }, [navigation]);
 
 // Header section - includes elements which appear on each page + instructions for this page.
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.topBarContainer}>
-        <View style={[styles.topBarCell, { alignItems: 'flex-start' }]}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image
-              source={require('../assets/images/backButton.png')}
-              style={styles.backButton}
-            />
-          </TouchableOpacity>
-        </View>
+return (
+  <SafeAreaView style={styles.container}>
+  
+    <View style={styles.topBarContainer}> 
 
-        <View style={{ flex: 1 }} />
-
-        <View style={styles.topBarCell}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Image
-              source={require('../assets/images/roiLogo.jpg')}
-              style={styles.logo}
-            />
-          </TouchableOpacity>
-        </View>
+      <View style={[styles.topBarCell, {alignItems: 'flex-start'}]}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+         <Image source={require('../assets/images/backButton.png')} style={styles.backButton}/>
+        </TouchableOpacity>
       </View>
+     
+    <View style={{ flex: 1 }} />
+    
+    <View style={styles.topBarCell}> 
+      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <Image source={require('../assets/images/roiLogo.jpg')} style={styles.logo}/>
+      </TouchableOpacity>
+    </View>
+    </View>
 
-      <Text style={styles.heading}>VIEW CONTACT DETAILS</Text>
-      <Text style={styles.instruction}>
-        Select a name to see contact details:{' '}
-      </Text>
+  <FlatList
+    style={{ flex: 1 }}
+    data={filteredContacts}
+    keyExtractor={(item) => item.id}
+
+    ListHeaderComponent={
+      <>
+      <Text style={styles.heading}>VIEW CONTACTS</Text>
+      <Text style={styles.instruction}>Select a name to see contact details. </Text>
       <Text style={styles.space}> </Text>
+      <TextInput style={styles.searchInput} placeholder="Search" value={searchText} onChangeText={setSearchText}/>
       <View style={styles.divider} />
-{/* End of header section - */}
+      </> 
+    }
+// End of header section 
 
-      <ScrollView>
-        <View style={styles.card}> 
-          <Image source={require('../assets/images/personIcon.png')} style={styles.icon} />
-          <Text style={styles.name}>{entry.name}</Text>
-          <Text style={styles.space}> </Text>
-          <Text style={styles.text}>
-            <Text style={{}}>DEPARTMENT: </Text> {entry.department}</Text>
-          <Text style={styles.text}> 
-            <Text style={{ }}>PHONE: </Text>{entry.phone} </Text>
-            <Text style={{}}>ADDRESS: </Text>
-          <Text style={styles.text}>{entry.addressStreet}</Text>
-          <Text style={styles.text}>{entry.addressCity}</Text>
-          <Text style={styles.text}>{entry.addressState}</Text>
-          <Text style={styles.text}>{entry.addressZIP}</Text>
-          <Text style={styles.text}>{entry.addressCountry}</Text>
+// Display of contacts list. 
+    renderItem={({ item }) => (
+      <View style={styles.card}>
+        <TouchableOpacity style={styles.cardContent} onPress={() => navigation.navigate('ContactDetails', { entry: item })}>
+        <Image source={require('../assets/images/personIcon.png')} style={styles.icon}/>
+        <View style={styles.cardContainer}>
+        <Text style={styles.cardName}>{item.name}</Text>
+        <Text style={styles.cardDepartment}>{item.department}</Text>
         </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+      </TouchableOpacity>
+      </View>
+    )}
+    />
+  </SafeAreaView>
+);
 }
+// End of contacts list. 
 
+// Customisation of display. 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#262626', padding: 16 },
-  heading: { fontSize: 20, color: '#FFFFFF', marginBottom: 16 },
-  instruction: { fontSize: 20, color: '#FFFFFF', lineHeight: 26 }, 
-  buttonStyle: {backgroundColor: '#FFFFFF', borderRadius: 12, padding: 16, alignItems: 'center', marginTop: 12 }, 
-  buttonText: { color: '#fff', fontSize: 16 },
-  card: { backgroundColor: '#FFFFFF', paddingVertical: 10, paddingHorizontal: 5, borderRadius: 10, marginBottom: 10, marginRight: 16, alignItems: 'center' },
-  cardContent: { flex: 1, flexDirection: 'row', alignItems: 'center' },
-  cardName: { fontSize: 20, marginLeft: 2 },
-  cardContainer: { marginLeft: 1, flex: 1 },
-  text:    { fontSize: 16, color: '#262626', alignSelf: 'center' },
-  space: { fontSize: 8, color: 'black' },
-  divider: { height: 5, backgroundColor: '#CB6D4f', marginVertical: 15 },
-  icon: { width: 60, height: 75, resizeMode: 'contain', alignSelf: 'center', marginLeft: 1 },
-  name: { fontSize: 18, color: '#262626', lineHeight: 26 },
-  department: { fontSize: 16, color: '#262626', lineHeight: 26 },
-  phone: { fontSize: 16, color: '#262626', lineHeight: 26 },
-  address: { fontSize: 16, color: '#262626', lineHeight: 26 },
-  logo: { width: 100, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },
-  topBarContainer: { flexDirection: 'row', alignItems: 'center', paddingVertical: 10 },
-  backButton: { width: 80, height: 40, resizeMode: 'contain', marginHorizontal: -16 },
+  container:      { flex: 1, backgroundColor: '#262626', padding: 16 }, 
+  heading:        { fontSize: 20,  color: '#FFFFFF', marginBottom: 16 },
+  instruction:    { fontSize: 20, color: '#FFFFFF', lineHeight: 26 },
+  card:           { backgroundColor: "#FFFFFF",paddingVertical: 10, paddingHorizontal: 5, borderRadius: 10, marginBottom: 10, marginRight: 16},
+  cardContent:    { flex:1, flexDirection: 'row', alignItems: 'center' },
+  cardName:       { fontSize: 20, marginLeft: 2},
+  cardDepartment: { fontSize: 16, color: "black", marginLeft: 2 },
+  cardContainer:  { marginLeft: 1, flex: 1 },
+  space:          { fontSize: 8, color: "#262626" },
+  searchInput:    { fontSize: 20, height: 60, borderColor: '#ccc', backgroundColor: '#FFFFFF', borderWidth: 1, borderRadius: 8, paddingHorizontal: 10, marginBottom:1, marginRight: 16 },
+  divider:        { height: 5, backgroundColor: '#CB6D4f', marginVertical: 15 },
+  logo:           { width: 100, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },
+  icon:           { width: 60, height: 75, resizeMode: 'contain', alignSelf: 'flex-start', marginLeft: 1 },
+  topBarContainer:{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 },
+  backButton:     { width: 80, height: 40, resizeMode: 'contain', marginHorizontal: -16 }
 });
