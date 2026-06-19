@@ -16,7 +16,6 @@ useEffect(() => {
       }}); 
       return unsubscribe;}, [navigation]);
       
-
 // Variables for the form. 
 const [id, setID] = useState('');
 const [name, setName] = useState('');
@@ -49,7 +48,8 @@ const handleAddContact = async () => { const newContact = {id, name, department,
 // Keyboard pop-up does not cover text on screen.
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView style={{ flex: 1}} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      
+
+{/* Start of header section - */}
       <View style={styles.topBarContainer}> 
 
         <View style={[styles.topBarCell, {alignItems: 'flex-start'}]}>
@@ -70,7 +70,7 @@ const handleAddContact = async () => { const newContact = {id, name, department,
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }} keyboardShouldPersistTaps="handled">
 
       <Text style={[styles.heading, { fontSize: textSize }]}>ADD NEW CONTACT</Text>
-      <Text style={[styles.instruction, { fontSize: textSize - 5 }]}>Please fill in details of new contact and save.</Text>
+      <Text style={[styles.instruction, { fontSize: textSize }]}>Please fill in details of new contact and save.</Text>
       <Text style={styles.space}> </Text>
       <View style={styles.divider} />
 {/* End of header section - */}
@@ -126,9 +126,9 @@ const handleAddContact = async () => { const newContact = {id, name, department,
 // Customisation of display. 
 const styles = StyleSheet.create({
   container:      { flex: 1, backgroundColor: '#262626', padding: 16 }, 
-  heading:        { fontSize: 20, color: '#FFFFFF', marginBottom: 16 },
-  instruction:    { fontSize: 20, color: '#FFFFFF', lineHeight: 26 },
-  formFields:     { fontSize: 16, color: '#262626' },
+  heading:        { color: '#FFFFFF', marginBottom: 16 },
+  instruction:    { color: '#FFFFFF', lineHeight: 26 },
+  formFields:     { color: '#262626' },
   buttonStyle:    { backgroundColor: '#FFFFFF', borderRadius: 12, padding: 16, alignItems: 'center', marginTop: 12, marginRight: 16 },
   buttonText:     { color: '#262626', fontSize: 16 },
   card:           { backgroundColor: "#FFFFFF",paddingVertical: 10, paddingHorizontal: 5, borderRadius: 10, marginBottom: 10, marginRight: 16 },
@@ -137,10 +137,10 @@ const styles = StyleSheet.create({
   space:          { fontSize: 8, color: "#FFFFFF" }, 
   divider:        { height: 5, backgroundColor: '#CB6D4f', marginVertical: 15 },
   icon:           { width: 60, height: 75, resizeMode: 'contain', alignSelf: 'center', marginLeft: 1 },
-  name:           { fontSize: 16, color: '#262626', lineHeight: 26 },
-  department:     { fontSize: 16, color: '#262626', lineHeight: 26 },
-  phone:          { fontSize: 16, color: '#262626', lineHeight: 26 },
-  address:        { fontSize: 16, color: '#262626', lineHeight: 26 },
+  name:           { color: '#262626', lineHeight: 26 },
+  department:     { color: '#262626', lineHeight: 26 },
+  phone:          { color: '#262626', lineHeight: 26 },
+  address:        { color: '#262626', lineHeight: 26 },
   input:          { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#262626', borderRadius: 10, padding: 10, marginVertical:5},
   logo:           { width: 110, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },
   topBarContainer:{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 },

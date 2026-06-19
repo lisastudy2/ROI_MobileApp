@@ -43,8 +43,8 @@ useEffect(() => {
 
 <ScrollView>
 
-      <Text style={styles.heading}>VIEW CONTACT DETAILS</Text>
-      <Text style={styles.instruction}>
+      <Text style={[styles.heading, { fontSize: textSize }]}>VIEW CONTACT DETAILS</Text>
+      <Text style={[styles.instruction, { fontSize: textSize }]}>
         Select a name to see contact details:{' '}
       </Text>
       <Text style={styles.space}> </Text>
@@ -79,22 +79,22 @@ useEffect(() => {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#262626', padding: 16 },
-  heading: { fontSize: 20, color: '#FFFFFF', marginBottom: 16 },
-  instruction: { fontSize: 20, color: '#FFFFFF', lineHeight: 26 }, 
-  buttonStyle: {backgroundColor: '#FFFFFF', borderRadius: 12, padding: 16, alignItems: 'center', marginTop: 12 }, 
-  buttonText: { color: '#262626', fontSize: 16 },
-  card: { backgroundColor: '#FFFFFF', paddingVertical: 10, paddingHorizontal: 5, borderRadius: 10, marginBottom: 10, marginRight: 16, alignItems: 'center' },
-  cardContent: { flex: 1, flexDirection: 'row', alignItems: 'center' },
-  cardName: { marginLeft: 2 },
-  cardContainer: { marginLeft: 1, flex: 1 },
-  text:    { color: '#262626', alignSelf: 'center' },
-  space: { fontSize: 8, color: 'black' },
-  divider: { height: 5, backgroundColor: '#CB6D4f', marginVertical: 15 },
-  icon: { width: 60, height: 75, resizeMode: 'contain', alignSelf: 'center', marginLeft: 1 },
-  nameField: { color: '#262626', lineHeight: 26, fontWeight: 'bold' },
-  otherFields: {color: '#262626', lineHeight: 26, fontWeight: 'bold' },
-  logo: { width: 100, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },
-  topBarContainer: { flexDirection: 'row', alignItems: 'center', paddingVertical: 10 },
-  backButton: { width: 80, height: 40, resizeMode: 'contain', marginHorizontal: -16 },
+  container:      { flex: 1, backgroundColor: '#262626', padding: 16 },
+  heading:        { color: '#FFFFFF', marginBottom: 16 },
+  instruction:    { color: '#FFFFFF', lineHeight: 26 }, 
+  buttonStyle:    { backgroundColor: '#FFFFFF', borderRadius: 12, padding: 16, alignItems: 'center', marginTop: 12, marginRight: 16 }, 
+  buttonText:     { color: '#262626' },
+  card:           { backgroundColor: '#FFFFFF', paddingVertical: 10, paddingHorizontal: 5, borderRadius: 10, marginBottom: 10, marginRight: 16, alignItems: 'center' },
+  cardContent:    { flex: 1, flexDirection: 'row', alignItems: 'center' },
+  cardName:       { marginLeft: 2 },
+  cardContainer:  { marginLeft: 1, flex: 1 },
+  text:           { color: '#262626', alignSelf: 'center' },
+  space:          { fontSize: 8, color: 'black' },
+  divider:        { height: 5, backgroundColor: '#CB6D4f', marginVertical: 15 },
+  icon:           { width: 60, height: 75, resizeMode: 'contain', alignSelf: 'center', marginLeft: 1 },
+  nameField:      { color: '#262626', lineHeight: 26, fontWeight: 'bold' },
+  otherFields:    {color: '#262626', lineHeight: 26, fontWeight: 'bold' },
+  logo:           { width: 100, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },
+  topBarContainer:{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 },
+  backButton:     { width: 80, height: 40, resizeMode: 'contain', marginHorizontal: -16 },
 });

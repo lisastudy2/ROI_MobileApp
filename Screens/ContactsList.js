@@ -86,10 +86,10 @@ return (
 
     ListHeaderComponent={
       <>
-      <Text style={styles.heading}>VIEW CONTACTS</Text>
-      <Text style={styles.instruction}>Select a name to see contact details. </Text>
+      <Text style={[styles.heading, { fontSize: textSize }]}>VIEW CONTACTS</Text>
+      <Text style={[styles.instruction, { fontSize: textSize }]}>Select a name to see contact details. </Text>
       <Text style={styles.space}> </Text>
-      <TextInput style={styles.searchInput} placeholder="Search" value={searchText} onChangeText={setSearchText}/>
+      <TextInput style={[styles.searchInput, { fontSize: textSize }]} placeholder="Search" value={searchText} onChangeText={setSearchText}/>
       <View style={styles.divider} />
       </> 
     }
@@ -101,8 +101,8 @@ return (
         <TouchableOpacity style={styles.cardContent} onPress={() => navigation.navigate('ContactDetails', { entry: item })}>
         <Image source={require('../assets/images/personIcon.png')} style={styles.icon}/>
         <View style={styles.cardContainer}>
-        <Text style={styles.cardName}>{item.name}</Text>
-        <Text style={styles.cardDepartment}>{item.department}</Text>
+        <Text style={[styles.cardName, { fontSize: textSize }]}>{item.name}</Text>
+        <Text style={[styles.cardDepartment, { fontSize: textSize - 3 }]}>{item.department}</Text>
         </View>
       </TouchableOpacity>
       </View>
@@ -116,15 +116,15 @@ return (
 // Customisation of display. 
 const styles = StyleSheet.create({
   container:      { flex: 1, backgroundColor: '#262626', padding: 16 }, 
-  heading:        { fontSize: 20,  color: '#FFFFFF', marginBottom: 16 },
-  instruction:    { fontSize: 20, color: '#FFFFFF', lineHeight: 26 },
+  heading:        { color: '#FFFFFF', marginBottom: 16 },
+  instruction:    { color: '#FFFFFF', lineHeight: 26 },
   card:           { backgroundColor: "#FFFFFF",paddingVertical: 10, paddingHorizontal: 5, borderRadius: 10, marginBottom: 10, marginRight: 16},
   cardContent:    { flex:1, flexDirection: 'row', alignItems: 'center' },
-  cardName:       { fontSize: 20, marginLeft: 2},
-  cardDepartment: { fontSize: 16, color: "black", marginLeft: 2 },
+  cardName:       { marginLeft: 2 },
+  cardDepartment: { color: "black", marginLeft: 2 },
   cardContainer:  { marginLeft: 1, flex: 1 },
   space:          { fontSize: 8, color: "#262626" },
-  searchInput:    { fontSize: 20, height: 60, borderColor: '#ccc', backgroundColor: '#FFFFFF', borderWidth: 1, borderRadius: 8, paddingHorizontal: 10, marginBottom:1, marginRight: 16 },
+  searchInput:    { height: 60, borderColor: '#ccc', backgroundColor: '#FFFFFF', borderWidth: 1, borderRadius: 8, paddingHorizontal: 10, marginBottom:1, marginRight: 16 },
   divider:        { height: 5, backgroundColor: '#CB6D4f', marginVertical: 15 },
   logo:           { width: 100, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },
   icon:           { width: 60, height: 75, resizeMode: 'contain', alignSelf: 'flex-start', marginLeft: 1 },

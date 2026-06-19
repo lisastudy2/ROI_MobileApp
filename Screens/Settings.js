@@ -45,8 +45,8 @@ useEffect(() => { const loadSettings = async () => {
         </View>
       </View>
       <ScrollView>
-      <Text style={styles.heading}>CHANGE SETTINGS</Text>
-      <Text style={styles.instruction}>
+      <Text style={[styles.heading, { fontSize: textSize }]}>CHANGE SETTINGS</Text>
+      <Text style={[styles.instruction, { fontSize: textSize }]}>
         Update settings below and press Save.{' '}
       </Text>
       <Text style={styles.space}> </Text>
@@ -63,12 +63,13 @@ useEffect(() => { const loadSettings = async () => {
 {/* I tried using a slider originally (@react-native-community/slider), however it would only work in the Web preview, then I tried another which also did not want to work, so I switched to a text-based button method for adjusting these settings. */} 
 
 {/* Text size adjuster. */} 
+<Text style={styles.space}> </Text>
 <Text style={[styles.generalText, { fontSize: textSize, fontWeight: 'bold' }]}>
   Text size
 </Text>
-
+<Text style={styles.space}> </Text>
 <Text style={[styles.generalText, { fontSize: textSize }]}>
-  Press + and - symbols to adjust text size. 
+  Press - and + symbols to adjust text size. 
 </Text>
 <Text style={styles.space}> </Text>
 <View style={styles.levelAdjuster}>
@@ -87,8 +88,12 @@ useEffect(() => { const loadSettings = async () => {
     <Text style={[styles.levelText, { fontSize: textSize }]}>   [+]</Text>
   </TouchableOpacity>
   </View>
-      <Text style={styles.space}> </Text>
-      <Text style={styles.space}> </Text>
+  <Text style={styles.space}> </Text>
+
+<Text style={[styles.generalText, { fontSize: textSize }]}>
+  Then press Save below. 
+</Text>
+      <View style={styles.divider2} />
 
 {/* Brightness adjuster. */}
           <Text style={[styles.generalText, { fontSize: textSize }]}>
@@ -120,9 +125,8 @@ useEffect(() => { const loadSettings = async () => {
 // Customisation of display. 
 const styles = StyleSheet.create({
   container:      { flex: 1, backgroundColor: '#262626', padding: 16 }, 
-  heading:        { fontSize: 20, color: '#FFFFFF', marginBottom: 16 },
-  instruction:    { fontSize: 20, color: '#FFFFFF', lineHeight: 26 },
-  formFields:     { fontSize: 16, color: '#262626' },
+  heading:        { color: '#FFFFFF', marginBottom: 16 },
+  instruction:    { color: '#FFFFFF', lineHeight: 26 },
   buttonStyle:    { backgroundColor: '#FFFFFF', borderRadius: 12, padding: 16, alignItems: 'center', marginTop: 12, marginRight: 16 },
   buttonText:     { color: '#262626', fontSize: 16 },
   card:           { backgroundColor: "#FFFFFF",paddingVertical: 10, paddingHorizontal: 5, borderRadius: 10, marginBottom: 10, marginRight: 16 },
@@ -130,6 +134,7 @@ const styles = StyleSheet.create({
   cardContainer:  { marginLeft: 1, flex: 1 },
   space:          { fontSize: 8, color: "black" }, 
   divider:        { height: 5, backgroundColor: '#CB6D4f', marginVertical: 15 },
+  divider2:       { height: 1, backgroundColor: '#c64c38', marginVertical: 15 },
   icon:           { width: 60, height: 75, resizeMode: 'contain', alignSelf: 'center', marginLeft: 1 },
   input:          { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#262626', borderRadius: 10, padding: 10, marginVertical:5},
   logo:           { width: 110, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },

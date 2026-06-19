@@ -69,8 +69,8 @@ useEffect(() => {
         </View>
       </View>
       <ScrollView>
-      <Text style={styles.heading}>EDIT CONTACT DETAILS</Text>
-      <Text style={styles.instruction}>Update the details and save your changes.</Text>
+      <Text style={[styles.heading, { fontSize: textSize }]}>EDIT CONTACT DETAILS</Text>
+      <Text style={[styles.instruction, { fontSize: textSize }]}>Update the details and save your changes.</Text>
       <Text style={styles.space}> </Text>
       <View style={styles.divider} />
 {/* End of header section - */}
