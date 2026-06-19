@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useAudioPlayer} from 'expo-audio';
  
 export default function ViewScreen({ route, navigation }) {
 
@@ -16,7 +17,38 @@ useEffect(() => {
       setTextSize(parseFloat(savedSize)); 
       }}); 
       return unsubscribe;}, [navigation]);
-      
+
+// Play sounds if enabled.
+const [soundEnabled, setSoundEnabled] = useState(true);
+
+useEffect(() => {
+  const loadSound = async () => {
+    const savedSound = await AsyncStorage.getItem('soundEnabled');
+    if (savedSound !== null) {
+      setSoundEnabled(JSON.parse(savedSound));
+    }
+  };
+
+  loadSound();
+}, []);
+
+  const clickPlayer = useAudioPlayer(
+    require('../assets/sounds/click.mp3')
+  );
+  const successPlayer = useAudioPlayer(
+    require('../assets/sounds/success.mp3')
+  );
+
+  const playClickSound = () => {
+    if (!soundEnabled) return;
+    clickPlayer.play();
+  };
+    const playSuccessSound = () => {
+    if (!soundEnabled) return;
+    successPlayer.play();
+  }; 
+
+
 // Variables for the form. 
 const [id, setID] = useState('');
 const [name, setName] = useState('');
@@ -36,6 +68,7 @@ const handleAddContact = async () => { const newContact = {id, name, department,
     const contacts = existing ? JSON.parse(existing) : [];
     contacts.push(newContact);
     await AsyncStorage.setItem('contacts', JSON.stringify(contacts));
+    playSuccessSound();
     Alert.alert("Success!", "New contact has been saved.", [ 
       { text: "OK", onPress: () => navigation.navigate('Home')}], {cancelable: false });
 
@@ -55,7 +88,7 @@ const handleAddContact = async () => { const newContact = {id, name, department,
       <View style={styles.topBarContainer}> 
 
         <View style={[styles.topBarCell, {alignItems: 'flex-start'}]}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => {playClickSound(); navigation.goBack()}}>
           <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
           </TouchableOpacity>
         </View>
@@ -63,7 +96,7 @@ const handleAddContact = async () => { const newContact = {id, name, department,
         <View style={{ flex: 1 }} />
         
         <View style={styles.topBarCell}> 
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <TouchableOpacity onPress={() => {playClickSound(); navigation.navigate('Home')}}>
             <Image source={require('../assets/images/roiLogo.jpg')} style={styles.logo}/>
           </TouchableOpacity>
         </View>
@@ -84,31 +117,31 @@ const handleAddContact = async () => { const newContact = {id, name, department,
         <Text style={styles.space}> </Text> 
         <Text style={styles.space}> </Text>
         <Text style={[styles.formFields, { fontSize: textSize }]}>1. What is their ID number? </Text>
-        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="ID number" value={id} onChangeText={setID} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="ID number" value={id} onChangeText={setID} onFocus={playClickSound} />
 
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
         <Text style={[styles.formFields, { fontSize: textSize }]}>2. What is their name? </Text>
-        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="First and last name" value={name} onChangeText={setName} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="First and last name" value={name} onChangeText={setName} onFocus={playClickSound} />
 
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
          <Text style={[styles.formFields, { fontSize: textSize }]}>3. Which department are they in? </Text>
-         <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Department" value={department} onChangeText={setDepartment} />
+         <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Department" value={department} onChangeText={setDepartment} onFocus={playClickSound} />
 
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
         <Text style={[styles.formFields, { fontSize: textSize }]}>4. What is their phone number? </Text>
-        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Phone number" value={phone} onChangeText={setPhone} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Phone number" value={phone} onChangeText={setPhone} onFocus={playClickSound} />
         
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
         <Text style={[styles.formFields, { fontSize: textSize }]}>5. What is their address? </Text>
-        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Street address" value={addressStreet} onChangeText={setAddressStreet} />
-        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="City" value={addressCity} onChangeText={setAddressCity} />
-        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="State" value={addressState} onChangeText={setAddressState} />
-        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="ZIP" value={addressZIP} onChangeText={setAddressZIP} />
-        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Country" value={addressCountry} onChangeText={setAddressCountry} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Street address" value={addressStreet} onChangeText={setAddressStreet} onFocus={playClickSound} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="City" value={addressCity} onChangeText={setAddressCity} onFocus={playClickSound} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="State" value={addressState} onChangeText={setAddressState} onFocus={playClickSound} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="ZIP" value={addressZIP} onChangeText={setAddressZIP} onFocus={playClickSound} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Country" value={addressCountry} onChangeText={setAddressCountry} onFocus={playClickSound} />
       </View>
 
         <TouchableOpacity style={styles.buttonStyle} onPress={handleAddContact}>

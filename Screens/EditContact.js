@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useAudioPlayer} from 'expo-audio';
  
  // Contact details which need to pre-fill the form.
 export default function ViewScreen({ route, navigation }) {
@@ -30,7 +31,7 @@ export default function ViewScreen({ route, navigation }) {
         ? {id, name, department, phone, addressStreet, addressCity, addressState, addressZIP, addressCountry}: contact);
 
       await AsyncStorage.setItem('contacts', JSON.stringify(updatedContacts));
-
+      playSuccessSound();
       Alert.alert(
         "Success!",
         "Contact details have been updated.",
@@ -62,7 +63,20 @@ export default function ViewScreen({ route, navigation }) {
 
         await AsyncStorage.setItem('contacts', JSON.stringify(updatedContacts));
 
-        navigation.navigate('Home'); 
+        playDeleteSound();
+
+        setTimeout(() => {
+          Alert.alert(
+            "Deleted!",
+            "Contact was successfully deleted.",
+            [
+              {
+                text: "OK",
+                onPress: () => navigation.navigate('Home')
+              }
+            ]
+          );
+        }, 100);
 
       } catch (error) {
         console.log('Error deleting:', error);
@@ -79,20 +93,56 @@ useEffect(() => {
       }}); 
       return unsubscribe;}, [navigation]);
 
+// Play sounds if enabled.
+const [soundEnabled, setSoundEnabled] = useState(true);
+
+useEffect(() => {
+  const loadSound = async () => {
+    const savedSound = await AsyncStorage.getItem('soundEnabled');
+    if (savedSound !== null) {
+      setSoundEnabled(JSON.parse(savedSound));
+    }
+  };
+
+  loadSound();
+}, []);
+
+  const clickPlayer = useAudioPlayer(
+    require('../assets/sounds/click.mp3')
+  );
+  const successPlayer = useAudioPlayer(
+    require('../assets/sounds/success.mp3')
+  );
+  const deletePlayer = useAudioPlayer(
+    require('../assets/sounds/delete.mp3')
+  );
+
+  const playClickSound = () => {
+    if (!soundEnabled) return;
+    clickPlayer.play();
+  };
+    const playSuccessSound = () => {
+    if (!soundEnabled) return;
+    successPlayer.play();
+  }; 
+    const playDeleteSound = () => {
+    if (!soundEnabled) return;
+    deletePlayer.play();
+  }; 
+  
 // Header.
   return (
       <SafeAreaView style={styles.container}>
       <View style={styles.topBarContainer}>
         <View style={[styles.topBarCell, { alignItems: 'flex-start' }]}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
-            
+          <TouchableOpacity onPress={() => {playClickSound(); navigation.goBack()}}>
+          <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
           </TouchableOpacity>
         </View>
 
 {/*} Home button is on screens where the user is more than 1 screen away from the Home (so this way we do not have 3 buttons [back, home and the logo] which all go Home on the same screen - the logo has also been setup to take users Home too on every screen).*/}
     <View style={[styles.topBarCell, { marginLeft: 10}]}> 
-      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+      <TouchableOpacity onPress={() => {playClickSound();navigation.navigate('Home')}}>
         <AntDesign name="home" size={30} color="#FFFFFF" />
       </TouchableOpacity>
     </View>
@@ -100,7 +150,7 @@ useEffect(() => {
         <View style={{ flex: 1 }} />
 
         <View style={styles.topBarCell}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <TouchableOpacity onPress={() => {playClickSound();navigation.navigate('Home')}}>
             <Image
               source={require('../assets/images/roiLogo.jpg')}
               style={styles.logo}

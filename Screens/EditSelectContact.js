@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ContactsData from '../Data/ContactsData.json';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useAudioPlayer} from 'expo-audio';
 
 export default function Home({ navigation }) {
 
@@ -41,6 +42,29 @@ useEffect(() => {
       }}); 
       return unsubscribe;}, [navigation]);
   
+// Play sounds if enabled.
+const [soundEnabled, setSoundEnabled] = useState(true);
+
+useEffect(() => {
+  const loadSound = async () => {
+    const savedSound = await AsyncStorage.getItem('soundEnabled');
+    if (savedSound !== null) {
+      setSoundEnabled(JSON.parse(savedSound));
+    }
+  };
+
+  loadSound();
+}, []);
+
+  const clickPlayer = useAudioPlayer(
+    require('../assets/sounds/click.mp3')
+  );
+
+  const playClickSound = () => {
+    if (!soundEnabled) return;
+    clickPlayer.play();
+  }; 
+
 // Header section
 return (
   <SafeAreaView style={styles.container}>
@@ -48,15 +72,15 @@ return (
     <View style={styles.topBarContainer}> 
 
       <View style={[styles.topBarCell, {alignItems: 'flex-start'}]}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => {playClickSound(); navigation.goBack()}}>
           <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
-        </TouchableOpacity>
+          </TouchableOpacity>
       </View>
      
     <View style={{ flex: 1 }} />
     
     <View style={styles.topBarCell}> 
-      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+      <TouchableOpacity onPress={() => {playSuccessSound();navigation.navigate('Home')}}>
         <Image source={require('../assets/images/roiLogo.jpg')} style={styles.logo}/>
       </TouchableOpacity>
     </View>
@@ -72,7 +96,7 @@ return (
     <Text style={[styles.heading, { fontSize: textSize }]}>EDIT CONTACTS</Text>
     <Text style={[styles.instruction, { fontSize: textSize }]}>Select a name to edit contact details. </Text>
     <Text style={styles.space}> </Text>
-    <TextInput style={[styles.searchInput, { fontSize: textSize }]} placeholder="Search" value={searchText} onChangeText={setSearchText}/>
+    <TextInput style={[styles.searchInput, { fontSize: textSize }]} placeholder="Search" value={searchText} onChangeText={setSearchText} onFocus={playClickSound} />
     <View style={styles.divider} />
       </> 
     }
@@ -80,7 +104,7 @@ return (
 
     renderItem={({ item }) => (
       <View style={styles.card}>
-        <TouchableOpacity style={styles.cardContent} onPress={() => navigation.navigate('EditContact', { entry: item })}>
+        <TouchableOpacity style={styles.cardContent} onPress={() => {playClickSound(); navigation.navigate('EditContact', { entry: item })}}>
         <Image source={require('../assets/images/editIcon.png')} style={styles.icon}/>
         <View style={styles.cardContainer}>
         <Text style={[styles.cardName, { fontSize: textSize }]}>{item.name}</Text>

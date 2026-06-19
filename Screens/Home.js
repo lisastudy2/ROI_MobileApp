@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAudioPlayer} from 'expo-audio';
 
 export default function Home({ navigation }) {
 
@@ -14,7 +15,30 @@ useEffect(() => {
       setTextSize(parseFloat(savedSize)); 
       }}); 
       return unsubscribe;}, [navigation]);
-      
+
+// Play sounds if enabled.
+const [soundEnabled, setSoundEnabled] = useState(true);
+
+useEffect(() => {
+  const loadSound = async () => {
+    const savedSound = await AsyncStorage.getItem('soundEnabled');
+    if (savedSound !== null) {
+      setSoundEnabled(JSON.parse(savedSound));
+    }
+  };
+
+  loadSound();
+}, []);
+
+  const clickPlayer = useAudioPlayer(
+    require('../assets/sounds/click.mp3')
+  );
+
+  const playClickSound = () => {
+    if (!soundEnabled) return;
+    clickPlayer.play();
+  }; 
+  
 // Header section - includes elements which appear on each page + instructions for this page.
 return (
   <SafeAreaView style={styles.container}>
@@ -27,28 +51,28 @@ return (
 {/* Menu options */}  
     <TouchableOpacity
       style={styles.buttonStyle}
-      onPress={() => navigation.navigate('ContactsList')}
+      onPress={() => {playClickSound(); navigation.navigate('ContactsList')}}
       >
       <Text style={[styles.buttonText, { fontSize: textSize }]}>VIEW CONTACTS</Text>  
     </TouchableOpacity> 
 
     <TouchableOpacity 
       style={styles.buttonStyle}
-      onPress={() => navigation.navigate('AddContact')}
+      onPress={() => {playClickSound(); navigation.navigate('AddContact')}}
       >
       <Text style={[styles.buttonText, { fontSize: textSize }]}>ADD CONTACT</Text>
     </TouchableOpacity>
 
     <TouchableOpacity
       style={styles.buttonStyle}
-      onPress={() => navigation.navigate('EditSelectContact')}
+      onPress={() => {playClickSound(); navigation.navigate('EditSelectContact')}}
       >
       <Text style={[styles.buttonText, { fontSize: textSize }]}>EDIT CONTACTS</Text>
     </TouchableOpacity> 
 
     <TouchableOpacity
       style={styles.buttonStyle}
-      onPress={() => navigation.navigate('Settings')}
+      onPress={() => {playClickSound(); navigation.navigate('Settings')}}
       >
       <Text style={[styles.buttonText, { fontSize: textSize }]}>SETTINGS</Text>
     </TouchableOpacity> 

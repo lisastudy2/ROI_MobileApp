@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useAudioPlayer} from 'expo-audio';
 
 export default function ViewScreen({ route, navigation }) {
   const { entry } = route.params;
@@ -18,20 +19,42 @@ useEffect(() => {
       }}); 
       return unsubscribe;}, [navigation]);
 
+// Play sounds if enabled.
+const [soundEnabled, setSoundEnabled] = useState(true);
+
+useEffect(() => {
+  const loadSound = async () => {
+    const savedSound = await AsyncStorage.getItem('soundEnabled');
+    if (savedSound !== null) {
+      setSoundEnabled(JSON.parse(savedSound));
+    }
+  };
+
+  loadSound();
+}, []);
+
+  const clickPlayer = useAudioPlayer(
+    require('../assets/sounds/click.mp3')
+  );
+
+  const playClickSound = () => {
+    if (!soundEnabled) return;
+    clickPlayer.play();
+  }; 
+  
 // Header section.
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBarContainer}>
         <View style={[styles.topBarCell, { alignItems: 'flex-start' }]}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
-            
+          <TouchableOpacity onPress={() => {playClickSound(); navigation.goBack()}}>
+          <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
           </TouchableOpacity>
         </View>
 
 {/*} Home button is on screens where the user is more than 1 screen away from the Home (so this way we do not have 3 buttons [back, home and the logo] which all go Home on the same screen - the logo has also been setup to take users Home too on every screen).*/}
     <View style={[styles.topBarCell, { marginLeft: 10}]}> 
-      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+      <TouchableOpacity onPress={() => {playClickSound(); navigation.navigate('Home')}}>
         <AntDesign name="home" size={30} color="#FFFFFF" />
       </TouchableOpacity>
     </View>
@@ -39,7 +62,7 @@ useEffect(() => {
         <View style={{ flex: 1 }} />
 
         <View style={styles.topBarCell}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <TouchableOpacity onPress={() => {playClickSound();navigation.navigate('Home')}}>
             <Image
               source={require('../assets/images/roiLogo.jpg')}
               style={styles.logo}
@@ -76,7 +99,7 @@ useEffect(() => {
         </View>
 
 {/* Edit contact details  */}
-        <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate('EditContact', { entry })}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={() => {playClickSound(); navigation.navigate('EditContact', { entry })}}>
           <Text style={[styles.buttonText, { fontSize: textSize }]}> EDIT </Text>
         </TouchableOpacity>  
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,47 +7,80 @@ import * as Brightness from 'expo-brightness';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Feather from '@expo/vector-icons/Feather';
+import { useAudioPlayer} from 'expo-audio';
 
 export default function Settings({ navigation }) { 
 
-// Saving text size adjustments.
+// Settings for the page. 
 const [textSize, setTextSize] = useState(16);
+const [brightness, setBrightness] = useState(0.5);
+const [soundEnabled, setSoundEnabled] = useState(true);
 const saveSettings = async () => { 
   try { await AsyncStorage.setItem('textSize', textSize.toString());
         await AsyncStorage.setItem('brightness', brightness.toString());
- } catch (e) { console.log('Error with text size'); }};
+        await AsyncStorage.setItem('soundEnabled', JSON.stringify(soundEnabled));
+
+  playSuccessSound();
+  
+  setTimeout(() => {
+    Alert.alert(
+    "Success!",
+    "Your settings have been updated.",
+    [ 
+      { text: "OK", onPress: () => navigation.navigate('Home') }
+    ]
+  ); 
+}, 100);
+
+} catch (e) { console.log('Error with text size'); }};
+
 
 useEffect(() => { 
   const loadSettings = async () => {  
     try {
+      // Loading text size.
       const savedSize = await AsyncStorage.getItem('textSize'); 
       if (savedSize) { 
         setTextSize(parseFloat(savedSize));} 
-  
-  // Saving brightness adjustments. 
-  const savedBrightness = await AsyncStorage.getItem('brightness');
-  if (savedBrightness) { 
-    const value = parseFloat(savedBrightness); 
-    setBrightness(value);
 
+    // Loading brightness.
+    const savedBrightness = await AsyncStorage.getItem('brightness');
+    if (savedBrightness) { 
+      const value = parseFloat(savedBrightness); 
+      setBrightness(value);
     await Brightness.setSystemBrightnessAsync(value);}
 
+    // Loading sounds.
+    const savedSound = await AsyncStorage.getItem('soundEnabled');
+    if (savedSound !== null) {
+      setSoundEnabled(JSON.parse(savedSound));
+      }
+
     } catch (e) {
-      console.log('Error loading settings');}};
+        console.log('Error loading settings');}};
     
   loadSettings();},[]);
  
- const [brightness, setBrightness] = useState(0.5);
-
+  // Brightness setup.
   const changeBrightness = async (value) => {
   try {
     await Brightness.requestPermissionsAsync();
     await Brightness.setSystemBrightnessAsync(value);
     setBrightness(value);
+
   } catch (e) {
-    console.log('Brightness error', e);
-  }
-  };
+    console.log('Brightness error', e);}};
+
+// Sound setup.
+  const clickPlayer = useAudioPlayer(require('../assets/sounds/click.mp3'));
+  const successPlayer = useAudioPlayer(require('../assets/sounds/success.mp3'));
+  const playClickSound = () => {
+    if (!soundEnabled) return; 
+    clickPlayer.play();};
+  const playSuccessSound = () => {
+    if (!soundEnabled) 
+    return; successPlayer.play();};
+
 
 
 // Header section - includes elements which appear on each page + instructions for this page.
@@ -55,7 +88,7 @@ useEffect(() => {
     <SafeAreaView style={styles.container}>
       <View style={styles.topBarContainer}>
         <View style={[styles.topBarCell, { alignItems: 'flex-start' }]}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => {playClickSound(); navigation.goBack()}}>
           <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
           </TouchableOpacity>
         </View>
@@ -63,7 +96,7 @@ useEffect(() => {
         <View style={{ flex: 1 }} />
 
         <View style={styles.topBarCell}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <TouchableOpacity onPress={() => {playClickSound(); navigation.navigate('Home')}}>
             <Image
               source={require('../assets/images/roiLogo.jpg')}
               style={styles.logo}
@@ -107,13 +140,13 @@ useEffect(() => {
     </Text>
     <Text style={styles.space}> </Text>
     <View style={styles.levelAdjuster}>
-     <TouchableOpacity style={styles.levelButton} onPress={() => setTextSize(prev => Math.max (12, prev - 1))}>
+     <TouchableOpacity style={styles.levelButton} onPress={() => {setTextSize(prev => Math.max (12, prev - 1)); playClickSound()}}>
     <Text style={[styles.levelText, { fontSize: textSize }]}>[-]   </Text> 
     </TouchableOpacity>
 
     <Text style={[styles.levelValue, { fontSize: textSize }]}>or</Text>
  
-    <TouchableOpacity style={styles.levelButton} onPress={() => setTextSize(prev => Math.min(30, prev + 1))} >
+    <TouchableOpacity style={styles.levelButton} onPress={() => {setTextSize(prev => Math.min(30, prev + 1)); playClickSound()}} >
     <Text style={[styles.levelText, { fontSize: textSize }]}>   [+]</Text>
     </TouchableOpacity>
     </View>
@@ -134,13 +167,13 @@ useEffect(() => {
     </Text>
     <Text style={styles.space}> </Text>
     <View style={styles.levelAdjuster}>
-    <TouchableOpacity onPress={() => changeBrightness(Math.max(0, brightness - 0.1 ))}>
+    <TouchableOpacity onPress={() => {changeBrightness(Math.max(0, brightness - 0.1 )); playClickSound()}}>
     <Text style={[styles.levelText, { fontSize : textSize }]}>[-]   </Text> </TouchableOpacity>
 
     <Text style={styles.space}> </Text>
     <Text style={[styles.generalText, { fontSize: textSize }]}> or </Text>
 
-    <TouchableOpacity onPress={() => changeBrightness(Math.min(1, brightness + 0.1))}>
+    <TouchableOpacity onPress={() => {changeBrightness(Math.min(1, brightness + 0.1)); playClickSound()}}>
     <Text style={[styles.levelText, { fontSize: textSize }]}>   [+]</Text> </TouchableOpacity>
     </View>  
   
@@ -149,10 +182,10 @@ useEffect(() => {
     Then press Save below. 
     </Text>
     <View style={styles.divider2} />
-    <Text style={styles.space}> </Text>
 
 
 {/*  Sound effects adjuster. */}
+    <Feather name="volume-2" size={45} color="black" style={{ alignSelf: 'center'}} />
     <Text style={styles.space}> </Text> 
     <Text style={[styles.generalText, { fontSize: textSize, fontWeight: 'bold'  }]}>Sound effects: </Text>
     <Text style={styles.space}> </Text>
@@ -160,19 +193,41 @@ useEffect(() => {
       Would you like sound effects turned on? 
     </Text>
     <Text style={styles.space}> </Text>
+
+    <TouchableOpacity 
+      onPress={async () => {
+        const newSoundSetting = !soundEnabled;
+        setSoundEnabled(newSoundSetting);
+        await AsyncStorage.setItem(
+        'soundEnabled',
+        JSON.stringify(newSoundSetting)
+          );
+          if (newSoundSetting) {
+            clickPlayer.Play();
+          }
+        }}
+      style={{ padding: 10 }}>
+        <Text style={[styles.generalText, { fontSize: textSize }]}>
+          {soundEnabled 
+          ? "Click here for sound: OFF" 
+          : "Click here for sound: ON"}
+        </Text>
+      </TouchableOpacity>
+
           
 
 </View>
 
 {/* Save settings. */}
-        <TouchableOpacity style={styles.buttonStyle} onPress={saveSettings}>
-          <Text style={[styles.buttonText, { fontSize: textSize }]}> SAVE </Text>
-        </TouchableOpacity>  
+    <TouchableOpacity style={styles.buttonStyle} onPress={() => { playClickSound(); saveSettings()}}>
+      <Text style={[styles.buttonText, { fontSize: textSize }]}> SAVE    
+      </Text>
+    </TouchableOpacity>  
 
       </ScrollView>
     </SafeAreaView>
   );
-}
+} 
 
 // Customisation of display. 
 const styles = StyleSheet.create({
