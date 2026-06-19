@@ -37,3 +37,4 @@ if (!fontsLoaded) { return null; }
   );
 }
 
+// This is a great App.js setup (from Liam for merge)
