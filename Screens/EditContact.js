@@ -100,7 +100,7 @@ export default function ViewScreen({ route, navigation }) {
       </View>
 
         <TouchableOpacity style={styles.buttonStyle} onPress={handleUpdateContact}>
-          <Text style={styles.buttonText}> SAVE UPDATES </Text>
+          <Text style={[styles.buttonText, { fontSize: textSize }]}> SAVE UPDATES </Text>
         </TouchableOpacity> 
         
         <Text style={styles.space}> </Text>

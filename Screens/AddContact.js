@@ -107,7 +107,7 @@ const handleAddContact = async () => { const newContact = {id, name, department,
       </View>
 
         <TouchableOpacity style={styles.buttonStyle} onPress={handleAddContact}>
-          <Text style={styles.buttonText}> SAVE CONTACT </Text>
+          <Text style={[styles.buttonText, { fontSize: textSize }]}> SAVE CONTACT </Text>
         </TouchableOpacity> 
         
         <Text style={styles.space}> </Text>
