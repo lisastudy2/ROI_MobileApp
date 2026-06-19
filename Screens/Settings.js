@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Slider from '@react-native-community/slider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Settings({ navigation }) { 
@@ -13,7 +12,7 @@ const saveSettings = async () => {
   try { await AsyncStorage.setItem('textSize', textSize.toString());} 
   catch (e) { console.log('Error with text size'); }};
 
-useEffect(() => { const loadSettings = async () => { 
+useEffect(() => { const loadSettings = async () => {  
   const savedSize = await AsyncStorage.getItem('textSize'); 
   if (savedSize) { setTextSize(parseFloat(savedSize));}}; loadSettings();},[]);
  
@@ -53,25 +52,60 @@ useEffect(() => { const loadSettings = async () => {
       <Text style={styles.space}> </Text>
       <View style={styles.divider} />
 {/* End of header section - */}
+<Text style={[styles.generalText, { fontSize: textSize }]}>
+  Text size: {textSize}
+</Text>
 
 
-        <View style={styles.card}>
+        <View style={styles.card}> 
           <Ionicons name="settings-outline" size={60} color="black" style={{ alignSelf: 'center'}}/>
 
-{/* Slider for adjusting and setting text size. */} 
-          <Text style={[styles.generalText, { fontSize: textSize }]}>Text size: </Text>
-          <Slider style={{width: 200, height: 40, alignSelf: 'center' }} value={textSize} onValueChange={(value) => setTextSize(value)} minimumValue={12} maximumValue={30} minimumTrackTintColor="#C64C38" maximumTrackTintColor="#262626" thumbSize={20} thumbTintColor="#941A1D" />
+{/* I tried using a slider originally (@react-native-community/slider), however it would only work in the Web preview, then I tried another which also did not want to work, so I switched to a text-based button method for adjusting these settings. */} 
 
-{/* Slider for adjusting and setting brightness. */}
-          <Text style={[styles.generalText, { fontSize: textSize }]}>Brightness: </Text>
-          <Slider style={{width: 200, height: 40, alignSelf: 'center' }} value={brightness} onValueChange={(value) => setBrightness(value)} minimumValue={0} maximumValue={10} minimumTrackTintColor="#C64C38" maximumTrackTintColor="#262626" thumbSize={20} thumbTintColor="#941A1D" />
+{/* Text size adjuster. */} 
+<Text style={[styles.generalText, { fontSize: textSize, fontWeight: 'bold' }]}>
+  Text size
+</Text>
+
+<Text style={[styles.generalText, { fontSize: textSize }]}>
+  Press + and - symbols to adjust text size. 
+</Text>
+<Text style={styles.space}> </Text>
+<View style={styles.levelAdjuster}>
+  <TouchableOpacity style={styles.levelButton} onPress={() => setTextSize(prev => Math.max (12, prev - 1))}>
+    <Text style={[styles.levelText, { fontSize: textSize }]}>[-]   </Text> 
+  </TouchableOpacity>
+
+  <Text style={[styles.levelValue, { fontSize: textSize }]}>
+    or
+  </Text>
  
-{/*  Slider for turning sound effects on and off. */}
+  <TouchableOpacity
+    style={styles.levelButton}
+    onPress={() => setTextSize(prev => Math.min(30, prev + 1))}
+  >
+    <Text style={[styles.levelText, { fontSize: textSize }]}>   [+]</Text>
+  </TouchableOpacity>
+  </View>
+      <Text style={styles.space}> </Text>
+      <Text style={styles.space}> </Text>
+
+{/* Brightness adjuster. */}
+          <Text style={[styles.generalText, { fontSize: textSize }]}>
+            <Text style={{ }}>Brightness: </Text>
+          </Text> 
+  
+      <Text style={styles.space}> </Text>
+      <Text style={styles.space}> </Text>
+
+
+{/*  Sound effects adjuster. */}
           <Text style={[styles.generalText, { fontSize: textSize }]}>
             <Text style={{ }}>Sound effects: </Text>
-          </Text>
+          </Text> 
+          
 
-        </View>
+</View>
 
 {/* Save settings. */}
         <TouchableOpacity style={styles.buttonStyle} onPress={saveSettings}>
@@ -97,13 +131,13 @@ const styles = StyleSheet.create({
   space:          { fontSize: 8, color: "black" }, 
   divider:        { height: 5, backgroundColor: '#CB6D4f', marginVertical: 15 },
   icon:           { width: 60, height: 75, resizeMode: 'contain', alignSelf: 'center', marginLeft: 1 },
-  name:           { fontSize: 16, color: '#262626', lineHeight: 26 },
-  department:     { fontSize: 16, color: '#262626', lineHeight: 26 },
-  phone:          { fontSize: 16, color: '#262626', lineHeight: 26 },
-  address:        { fontSize: 16, color: '#262626', lineHeight: 26 },
   input:          { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#262626', borderRadius: 10, padding: 10, marginVertical:5},
   logo:           { width: 110, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },
   topBarContainer:{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 },
   backButton:     { width: 80, height: 40, resizeMode: 'contain', marginHorizontal: -16 },
-  generalText:    { color: "#262626", alignSelf: 'center' }
-});
+  generalText:    { color: "#262626", textAlign: 'center'},
+  levelAdjuster:  { color: "#262626", textAlign: 'center', flexDirection: 'row', alignItems: 'center', alignSelf: 'center', justifyContent:' center', marginVertical: 0 },
+  levelButton:    { color: "#262626", textAlign: 'center' },
+  levelText:      { color: "#262626", textAlign: 'center' },
+  levelValue:     { color: "#262626", textAlign: 'center' }
+})

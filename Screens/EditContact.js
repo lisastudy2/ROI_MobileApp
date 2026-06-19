@@ -5,7 +5,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { KeyboardAvoidingView, Platform } from 'react-native';
  
 export default function ViewScreen({ route, navigation }) {
-  const [textSize, setTextSize] = useState(16);
+
+// Display saved text settings.
+const [textSize, setTextSize] = useState(16);
+useEffect(() => {
+  const unsubscribe = navigation.addListener('focus', async () => {
+    const savedSize = await AsyncStorage.getItem('textSize');
+    if (savedSize) {
+      setTextSize(parseFloat(savedSize)); 
+      }}); 
+      return unsubscribe;}, [navigation]);
+
   const { entry } = route.params;
   const [id, setID] = useState(entry.id);
   const [name, setName] = useState(entry.name);

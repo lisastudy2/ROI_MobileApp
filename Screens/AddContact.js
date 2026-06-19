@@ -6,13 +6,16 @@ import AntDesign from '@expo/vector-icons/AntDesign';
  
 export default function ViewScreen({ route, navigation }) {
 
-// Adjusts text size.
+// Display saved text settings.
 const [textSize, setTextSize] = useState(16);
 useEffect(() => {
-  const loadSettings = async () => {
+  const unsubscribe = navigation.addListener('focus', async () => {
     const savedSize = await AsyncStorage.getItem('textSize');
     if (savedSize) {
-      setTextSize(parseFloat(savedSize)); } }; loadSettings();}, []);
+      setTextSize(parseFloat(savedSize)); 
+      }}); 
+      return unsubscribe;}, [navigation]);
+      
 
 // Variables for the form. 
 const [id, setID] = useState('');
@@ -66,8 +69,8 @@ const handleAddContact = async () => { const newContact = {id, name, department,
 
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }} keyboardShouldPersistTaps="handled">
 
-      <Text style={styles.heading}>ADD NEW CONTACT</Text>
-      <Text style={styles.instruction}>Please fill in details of new contact and save.</Text>
+      <Text style={[styles.heading, { fontSize: textSize }]}>ADD NEW CONTACT</Text>
+      <Text style={[styles.instruction, { fontSize: textSize - 5 }]}>Please fill in details of new contact and save.</Text>
       <Text style={styles.space}> </Text>
       <View style={styles.divider} />
 {/* End of header section - */}

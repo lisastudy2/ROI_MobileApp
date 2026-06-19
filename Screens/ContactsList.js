@@ -6,7 +6,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
  
 export default function Home({ navigation }) {
-  const [textSize, setTextSize] = useState(16);
+
+// Display saved text settings.
+const [textSize, setTextSize] = useState(16);
+useEffect(() => {
+  const unsubscribe = navigation.addListener('focus', async () => {
+    const savedSize = await AsyncStorage.getItem('textSize');
+    if (savedSize) {
+      setTextSize(parseFloat(savedSize)); 
+      }}); 
+      return unsubscribe;}, [navigation]);
+
+
   const [contacts, setContacts] = useState([]);
   const [searchText, setSearchText] = useState('');
   const filteredContacts = contacts.filter(contact =>

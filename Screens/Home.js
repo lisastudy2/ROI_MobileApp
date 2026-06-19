@@ -8,10 +8,12 @@ export default function Home({ navigation }) {
 // Display saved text settings.
 const [textSize, setTextSize] = useState(16);
 useEffect(() => {
-  const loadSettings = async () => {
+  const unsubscribe = navigation.addListener('focus', async () => {
     const savedSize = await AsyncStorage.getItem('textSize');
     if (savedSize) {
-      setTextSize(parseFloat(savedSize)); } }; loadSettings();}, []);
+      setTextSize(parseFloat(savedSize)); 
+      }}); 
+      return unsubscribe;}, [navigation]);
       
 // Header section - includes elements which appear on each page + instructions for this page.
 return (
