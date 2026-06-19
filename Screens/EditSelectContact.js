@@ -10,21 +10,20 @@ const [contacts, setContacts] = useState([]);
 
 // Search functionality.
 const [searchText, setSearchText] = useState('');
-const filteredContacts = contacts.filter(contact =>
+const filteredContacts = Array.isArray(contacts)
+  ? contacts.filter(contact =>
     contact.name.toLowerCase().includes(searchText.toLowerCase())
-    );
+    ) : [];
 
 // Loading contacts list. 
 const loadContacts = async () => {
   const data = await AsyncStorage.getItem('contacts');
     if (data) {
       setContacts(JSON.parse(data));
+    } else {
+      setContacts(ContactsData.contacts);
     }
   }; 
- 
-  useEffect(() => {
-    loadContacts();
-  }, []); 
 
   useEffect(() => { 
     const stop = navigation.addListener('focus', loadContacts);

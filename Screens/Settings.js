@@ -3,22 +3,52 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, } from 're
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Brightness from 'expo-brightness';
 
 export default function Settings({ navigation }) { 
 
 // Saving text size adjustments.
 const [textSize, setTextSize] = useState(16);
 const saveSettings = async () => { 
-  try { await AsyncStorage.setItem('textSize', textSize.toString());} 
-  catch (e) { console.log('Error with text size'); }};
+  try { await AsyncStorage.setItem('textSize', textSize.toString());
+        await AsyncStorage.setItem('brightness', brightness.toString());
+ } catch (e) { console.log('Error with text size'); }};
 
-useEffect(() => { const loadSettings = async () => {  
-  const savedSize = await AsyncStorage.getItem('textSize'); 
-  if (savedSize) { setTextSize(parseFloat(savedSize));}}; loadSettings();},[]);
+useEffect(() => { 
+  const loadSettings = async () => {  
+    try {
+      const savedSize = await AsyncStorage.getItem('textSize'); 
+      if (savedSize) { 
+        setTextSize(parseFloat(savedSize));} 
+  
+  const savedBrightness = await AsyncStorage.getItem('brightness');
+  if (savedBrightness) { 
+    const value = parseFloat(savedBrightness); 
+    setBrightness(value);
+
+    await Brightness.setSystemBrightnessAsync(value);}
+
+    } catch (e) {
+      console.log('Error loading settings');}};
+    
+  loadSettings();},[]);
  
 
 // Save brightness settings.
- const [brightness, setBrightness] = useState(5);
+ const [brightness, setBrightness] = useState(0.5);
+
+ 
+const changeBrightness = async (value) => {
+  try {
+    await Brightness.requestPermissionsAsync();
+    await Brightness.setSystemBrightnessAsync(value);
+    setBrightness(value);
+  } catch (e) {
+    console.log('Brightness error', e);
+  }
+};
+
+
 
 // Header section - includes elements which appear on each page + instructions for this page.
   return (
@@ -63,44 +93,55 @@ useEffect(() => { const loadSettings = async () => {
 {/* I tried using a slider originally (@react-native-community/slider), however it would only work in the Web preview, then I tried another which also did not want to work, so I switched to a text-based button method for adjusting these settings. */} 
 
 {/* Text size adjuster. */} 
-<Text style={styles.space}> </Text>
-<Text style={[styles.generalText, { fontSize: textSize, fontWeight: 'bold' }]}>
-  Text size
-</Text>
-<Text style={styles.space}> </Text>
-<Text style={[styles.generalText, { fontSize: textSize }]}>
-  Press - and + symbols to adjust text size. 
-</Text>
-<Text style={styles.space}> </Text>
-<View style={styles.levelAdjuster}>
-  <TouchableOpacity style={styles.levelButton} onPress={() => setTextSize(prev => Math.max (12, prev - 1))}>
-    <Text style={[styles.levelText, { fontSize: textSize }]}>[-]   </Text> 
-  </TouchableOpacity>
+    <Text style={styles.space}> </Text>
+    <Text style={[styles.generalText, { fontSize: textSize, fontWeight: 'bold' }]}> Text size </Text>
+    <Text style={styles.space}> </Text>
+    <Text style={[styles.generalText, { fontSize: textSize }]}>
+      Press - and + symbols to adjust text size. 
+    </Text>
+    <Text style={styles.space}> </Text>
+    <View style={styles.levelAdjuster}>
+      <TouchableOpacity style={styles.levelButton} onPress={() => setTextSize(prev => Math.max (12, prev - 1))}>
+      <Text style={[styles.levelText, { fontSize: textSize }]}>[-]   </Text> 
+      </TouchableOpacity>
 
-  <Text style={[styles.levelValue, { fontSize: textSize }]}>
-    or
-  </Text>
+      <Text style={[styles.levelValue, { fontSize: textSize }]}>
+        or
+      </Text>
  
-  <TouchableOpacity
-    style={styles.levelButton}
-    onPress={() => setTextSize(prev => Math.min(30, prev + 1))}
-  >
-    <Text style={[styles.levelText, { fontSize: textSize }]}>   [+]</Text>
-  </TouchableOpacity>
-  </View>
-  <Text style={styles.space}> </Text>
+    <TouchableOpacity
+      style={styles.levelButton}
+      onPress={() => setTextSize(prev => Math.min(30, prev + 1))}
+    >
+      <Text style={[styles.levelText, { fontSize: textSize }]}>   [+]</Text>
+    </TouchableOpacity>
+    </View>
+    <Text style={styles.space}> </Text>
 
-<Text style={[styles.generalText, { fontSize: textSize }]}>
-  Then press Save below. 
-</Text>
-      <View style={styles.divider2} />
+  <Text style={[styles.generalText, { fontSize: textSize }]}>
+    Then press Save below. 
+  </Text>
+        <View style={styles.divider2} />
 
 {/* Brightness adjuster. */}
-          <Text style={[styles.generalText, { fontSize: textSize }]}>
-            <Text style={{ }}>Brightness: </Text>
-          </Text> 
+    <Text style={[styles.generalText, { fontSize: textSize, fontWeight: 'bold'  }]}>Brightness: </Text>
+    <Text style={styles.space}> </Text>
+    <View style={styles.levelAdjuster}>
+    <TouchableOpacity onPress={() => changeBrightness(Math.max(0, brightness - 0.1 ))}>
+    <Text style={[styles.levelText, { fontSize : textSize }]}>[-]   </Text> </TouchableOpacity>
+
+      <Text style={styles.space}> </Text>
+      <Text style={[styles.generalText, { fontSize: textSize }]}> or </Text>
+
+    <TouchableOpacity onPress={() => changeBrightness(Math.min(1, brightness + 0.1))}>
+    <Text style={[styles.levelText, { fontSize: textSize }]}>   [+]</Text> </TouchableOpacity>
+    </View>  
   
       <Text style={styles.space}> </Text>
+        <Text style={[styles.generalText, { fontSize: textSize }]}>
+    Then press Save below. 
+  </Text>
+        <View style={styles.divider2} />
       <Text style={styles.space}> </Text>
 
 

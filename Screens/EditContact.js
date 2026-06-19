@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text,TouchableOpacity, StyleSheet, Image, TextInput, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, TextInput, ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { KeyboardAvoidingView, Platform } from 'react-native';
@@ -16,16 +16,20 @@ useEffect(() => {
       }}); 
       return unsubscribe;}, [navigation]);
 
-  const { entry } = route.params;
-  const [id, setID] = useState(entry.id);
-  const [name, setName] = useState(entry.name);
-  const [department, setDepartment] = useState(entry.department);
-  const [phone, setPhone] = useState(entry.phone);
-  const [addressStreet, setAddressStreet] = useState(entry.addressStreet);
-  const [addressCity, setAddressCity] = useState(entry.addressCity);
-  const [addressState, setAddressState] = useState(entry.addressState);
-  const [addressZIP, setAddressZIP] = useState(entry.addressZIP);
-  const [addressCountry, setAddressCountry] = useState(entry.addressCountry);
+  const { id } = route.params;
+
+  const [idState, setID] = useState('');
+  const [name, setName] = useState('');
+  const [department, setDepartment] = useState('');
+  const [phone, setPhone] = useState('');
+  const [addressStreet, setAddressStreet] = useState('');
+  const [addressCity, setAddressCity] = useState('');
+  const [addressState, setAddressState] = useState('');
+  const [addressZIP, setAddressZIP] = useState('');
+  const [addressCountry, setAddressCountry] = useState('');
+
+
+// Saving contact details. 
   const handleUpdateContact = async () => {
     try { 
       const existing = await AsyncStorage.getItem('contacts');
@@ -37,6 +41,8 @@ useEffect(() => {
 
       await AsyncStorage.setItem('contacts', JSON.stringify(updatedContacts));
 
+      alert('Success! Contact has been saved');
+
       navigation.navigate('ContactsList');
 
     } catch (error) {
@@ -45,6 +51,30 @@ useEffect(() => {
     }
     
   };
+
+// Deleting contact details. 
+    const handleDeleteContact = async () => {
+      Alert.alert(
+        "Delete Contact",
+        "Wait! Are you sure you want to delete this contact?",
+        [ { text: "No, lets cancel", style: "cancel" },
+          { text: "Yes, I am sure", style: "destructive", 
+          onPress: async () => {
+      try { 
+        const existing = await AsyncStorage.getItem('contacts');
+        const contacts = existing ? JSON.parse(existing) : [];
+
+        const updatedContacts = contacts.filter( contact => String(contact.id) !== String(entry.id ));
+
+        await AsyncStorage.setItem('contacts', JSON.stringify(updatedContacts));
+
+        navigation.navigate('ContactsList'); 
+
+      } catch (error) {
+        console.log('Error deleting:', error);
+      }}}
+    ]);};
+    
 
 // Header section - includes elements which appear on each page + instructions for this page.
   return (
@@ -111,6 +141,13 @@ useEffect(() => {
 
         <TouchableOpacity style={styles.buttonStyle} onPress={handleUpdateContact}>
           <Text style={[styles.buttonText, { fontSize: textSize }]}> SAVE UPDATES </Text>
+        </TouchableOpacity> 
+        
+        <Text style={styles.space}> </Text> 
+        <Text style={styles.space}> </Text>
+
+        <TouchableOpacity style={styles.buttonStyle} onPress={handleDeleteContact}>
+          <Text style={[styles.buttonText, { fontSize: textSize }]}> DELETE CONTACT </Text>
         </TouchableOpacity> 
         
         <Text style={styles.space}> </Text>
