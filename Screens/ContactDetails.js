@@ -69,7 +69,7 @@ useEffect(() => {
         </View>
 
 {/* Edit contact details  */}
-        <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate('EditContact', { entry: item })}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate('EditContact', { entry })}>
           <Text style={[styles.buttonText, { fontSize: textSize }]}> EDIT </Text>
         </TouchableOpacity>  
 
