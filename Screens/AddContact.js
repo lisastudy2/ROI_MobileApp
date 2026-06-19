@@ -36,7 +36,7 @@ const handleAddContact = async () => { const newContact = {id, name, department,
     const contacts = existing ? JSON.parse(existing) : [];
     contacts.push(newContact);
     await AsyncStorage.setItem('contacts', JSON.stringify(contacts));
-    Alert.alert("Success", "Contact has been saved", [ 
+    Alert.alert("Success!", "New contact has been saved.", [ 
       { text: "OK", onPress: () => navigation.navigate('Home')}], {cancelable: false });
 
   } catch (error) {

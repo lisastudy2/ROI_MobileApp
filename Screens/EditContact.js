@@ -17,6 +17,9 @@ export default function ViewScreen({ route, navigation }) {
   const [addressState, setAddressState] = useState(entry.addressState);
   const [addressZIP, setAddressZIP] = useState(entry.addressZIP);
   const [addressCountry, setAddressCountry] = useState(entry.addressCountry);
+
+
+// Saves contact details. 
   const handleUpdateContact = async () => {
     try { 
       const existing = await AsyncStorage.getItem('contacts');
@@ -28,13 +31,19 @@ export default function ViewScreen({ route, navigation }) {
 
       await AsyncStorage.setItem('contacts', JSON.stringify(updatedContacts));
 
-      navigation.navigate('ContactsList');
-
+      Alert.alert(
+        "Success!",
+        "Contact details have been updated.",
+      [
+        {
+          text: "OK",
+          onPress: () => navigation.navigate('Home')
+        }
+      ]
+      );
     } catch (error) {
       console.log('Error saving:', error);
-
     }
-    
   };
 
 // Deleting contact details. 
@@ -53,7 +62,7 @@ export default function ViewScreen({ route, navigation }) {
 
         await AsyncStorage.setItem('contacts', JSON.stringify(updatedContacts));
 
-        navigation.navigate('ContactsList'); 
+        navigation.navigate('Home'); 
 
       } catch (error) {
         console.log('Error deleting:', error);
@@ -70,7 +79,7 @@ useEffect(() => {
       }}); 
       return unsubscribe;}, [navigation]);
 
-
+// Header.
   return (
       <SafeAreaView style={styles.container}>
       <View style={styles.topBarContainer}>
@@ -101,42 +110,46 @@ useEffect(() => {
       </View>
 
 <ScrollView>
-
+  <Text style={[styles.heading, { fontSize: textSize }]}>EDIT CONTACT DETAILS</Text>
+  <Text style={[styles.instruction, { fontSize: textSize }]}>Please update details then save.</Text>
+  <Text style={styles.space}> </Text>
+  <View style={styles.divider} />
+{/* End of header section - */}
       <View style={styles.card}>
         <Image source={require('../assets/images/editIcon.png')} style={styles.icon} />
 
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
-        <Text style={styles.formFields}>1. What is their ID number? </Text>
-        <TextInput style={styles.input} placeholder="ID number" value={id} onChangeText={setID} />
+        <Text style={[styles.formFields, { fontSize: textSize }]}>1. What is their ID number? </Text>
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="ID number" value={id} onChangeText={setID} />
 
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
-        <Text style={styles.formFields}>2. What is their name? </Text>
-        <TextInput style={styles.input} placeholder="First and last name" value={name} onChangeText={setName} />
+        <Text style={[styles.formFields, { fontSize: textSize }]}>2. What is their name? </Text>
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="First and last name" value={name} onChangeText={setName} />
 
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
-         <Text style={styles.formFields}>3. Which department are they in? </Text>
-         <TextInput style={styles.input} placeholder="Department" value={department} onChangeText={setDepartment} />
+         <Text style={[styles.formFields, { fontSize: textSize }]}>3. Which department are they in? </Text>
+         <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Department" value={department} onChangeText={setDepartment} />
 
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
-        <Text style={styles.formFields}>4. What is their phone number? </Text>
-        <TextInput style={styles.input} placeholder="Phone number" value={phone} onChangeText={setPhone} />
+        <Text style={[styles.formFields, { fontSize: textSize }]}>4. What is their phone number? </Text>
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Phone number" value={phone} onChangeText={setPhone} />
         
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
-        <Text style={styles.formFields}>5. What is their address? </Text>
-        <TextInput style={styles.input} placeholder="Street address" value={addressStreet} onChangeText={setAddressStreet} />
-        <TextInput style={styles.input} placeholder="City" value={addressCity} onChangeText={setAddressCity} />
-        <TextInput style={styles.input} placeholder="State" value={addressState} onChangeText={setAddressState} />
-        <TextInput style={styles.input} placeholder="ZIP" value={addressZIP} onChangeText={setAddressZIP} />
-        <TextInput style={styles.input} placeholder="Country" value={addressCountry} onChangeText={setAddressCountry} />
+        <Text style={[styles.formFields, { fontSize: textSize }]}>5. What is their address? </Text>
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Street address" value={addressStreet} onChangeText={setAddressStreet} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="City" value={addressCity} onChangeText={setAddressCity} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="State" value={addressState} onChangeText={setAddressState} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="ZIP" value={addressZIP} onChangeText={setAddressZIP} />
+        <TextInput style={[styles.input, { fontSize: textSize }]} placeholder="Country" value={addressCountry} onChangeText={setAddressCountry} />
       </View>
 
         <TouchableOpacity style={styles.buttonStyle} onPress={handleUpdateContact}>
-          <Text style={styles.buttonText}> SAVE UPDATES </Text>
+          <Text style={[styles.buttonText, { fontSize: textSize }]}> SAVE UPDATES </Text>
         </TouchableOpacity> 
         
         <Text style={styles.space}> </Text>
