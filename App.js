@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useFonts } from 'expo-font';
 import { TextInput, View } from 'react-native';
 import Home from './Screens/Home';
 import ContactsList from './Screens/ContactsList';
@@ -14,16 +13,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
-  // Approved font setup.
-  const [fontsLoaded] = useFonts({
-    courierPrimeBold: require('./assets/fonts/CourierPrime-Bold.ttf'),
-  });
-  if (!fontsLoaded) {
-    return null;
-  }
-
-  // Navigation setup.
+export default function App() { 
+  // Navigation setup. 
   return (
     <NavigationContainer>
       <Stack.Navigator

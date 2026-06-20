@@ -5,6 +5,7 @@ import ContactsData from '../Data/ContactsData.json';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useAudioPlayer} from 'expo-audio';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function Home({ navigation }) {
 
@@ -76,7 +77,13 @@ return (
           <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
           </TouchableOpacity>
       </View>
-     
+
+    <View style={[styles.topBarCell, { marginLeft: 10}]}> 
+      <TouchableOpacity onPress={() => {playClickSound();navigation.navigate('Home')}}>
+        <AntDesign name="home" size={30} color="#FFFFFF" />
+      </TouchableOpacity>
+    </View>
+        
     <View style={{ flex: 1 }} />
     
     <View style={styles.topBarCell}> 

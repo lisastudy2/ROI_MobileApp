@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-nat
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAudioPlayer} from 'expo-audio';
+import { useFonts } from 'expo-font';
 
 export default function Home({ navigation }) {
 
@@ -38,6 +39,14 @@ useEffect(() => {
     if (!soundEnabled) return;
     clickPlayer.play();
   }; 
+
+  // Loading approved font.
+  const [fontsLoaded] = useFonts({
+    'trebuchet': require('../assets/fonts/trebuchet-reg.ttf'), 
+  });
+  if (!fontsLoaded) {
+    return null; 
+  } 
   
 // Header section - includes elements which appear on each page + instructions for this page.
 return (
@@ -85,9 +94,9 @@ return (
 // Customisation of display. 
 const styles = StyleSheet.create({ 
   container:    { flex: 1, backgroundColor: '#262626', padding: 16 },
-  welcomeText:  { fontSize: 30, color: '#FFFFFF', marginBottom: 1, marginTop: 1, alignSelf: 'center' },
-  instruction:  { fontSize: 20, color: '#FFFFFF', lineHeight: 26, alignSelf: 'center', marginTop: 15, marginBottom: 15 },
+  welcomeText:  { fontFamily: 'trebuchet', fontSize: 30, color: '#FFFFFF', marginBottom: 1, marginTop: 1, alignSelf: 'center' },
+  instruction:  { fontFamily: 'trebuchet', fontSize: 20, color: '#FFFFFF', lineHeight: 26, alignSelf: 'center', marginTop: 15, marginBottom: 15 },
   buttonStyle:  { backgroundColor: '#FFFFFF', borderRadius: 10, padding: 20, alignItems: 'center', marginTop: 18, width:'70%', alignSelf:'center' },
-  buttonText:   { color: '#262626' },
+  buttonText:   { fontFamily: 'trebuchet', color: '#262626' },
   logo:         { width: 200, height: 150, resizeMode: 'contain', alignSelf: 'center', marginBottom: 10 },
 });

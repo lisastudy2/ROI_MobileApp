@@ -52,7 +52,6 @@ useEffect(() => {
           </TouchableOpacity>
         </View>
 
-{/*} Home button is on screens where the user is more than 1 screen away from the Home (so this way we do not have 3 buttons [back, home and the logo] which all go Home on the same screen - the logo has also been setup to take users Home too on every screen).*/}
     <View style={[styles.topBarCell, { marginLeft: 10}]}> 
       <TouchableOpacity onPress={() => {playClickSound(); navigation.navigate('Home')}}>
         <AntDesign name="home" size={30} color="#FFFFFF" />

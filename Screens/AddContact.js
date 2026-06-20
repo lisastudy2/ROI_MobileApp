@@ -26,7 +26,7 @@ useEffect(() => {
     const savedSound = await AsyncStorage.getItem('soundEnabled');
     if (savedSound !== null) {
       setSoundEnabled(JSON.parse(savedSound));
-    }
+    } 
   };
 
   loadSound();
@@ -90,6 +90,12 @@ const handleAddContact = async () => { const newContact = {id, name, department,
         <View style={[styles.topBarCell, {alignItems: 'flex-start'}]}>
           <TouchableOpacity onPress={() => {playClickSound(); navigation.goBack()}}>
           <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
+          </TouchableOpacity>
+        </View>
+
+        <View style={[styles.topBarCell, { marginLeft: 10}]}> 
+          <TouchableOpacity onPress={() => {playClickSound(); navigation.navigate('Home')}}>
+            <AntDesign name="home" size={30} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
       
