@@ -85,7 +85,7 @@ useEffect(() => {
     if (!soundEnabled) return; 
     successPlayer.play();};
 
-  // Loading approved font.
+// Loading approved font.
   const [fontsLoaded] = useFonts({
     'trebuchet': require('../assets/fonts/trebuchet-reg.ttf'), 
     'trebuchet-bold': require('../assets/fonts/trebuchet-bold.ttf'),
@@ -99,7 +99,10 @@ useEffect(() => {
     <SafeAreaView style={styles.container}>
       <View style={styles.topBarContainer}>
         <View style={[styles.topBarCell, { alignItems: 'flex-start' }]}>
-          <TouchableOpacity onPress={() => {playClickSound(); navigation.goBack()}}>
+          <TouchableOpacity onPress={() => {playClickSound(); 
+          setTimeout(() => {
+            navigation.goBack();
+            }, 300);}}>
           <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
           </TouchableOpacity>
         </View>
@@ -122,22 +125,23 @@ useEffect(() => {
         </View>
       </View>
       <ScrollView>
-      <Text style={[styles.heading, { fontSize: textSize }]}>CHANGE SETTINGS</Text>
-      <Text style={[styles.instruction, { fontSize: textSize }]}>
+      <Text style={[styles.heading, { fontSize: textSize, lineHeight: textSize + 6 }]}>CHANGE SETTINGS</Text>
+      <Text style={[styles.instruction, { fontSize: textSize, lineHeight: textSize + 6 }]}>
         Update settings below and press Save.{' '}
       </Text>
       <Text style={styles.space}> </Text>
       <View style={styles.divider} />
 {/* End of header section - */}
-<Text style={[styles.text, { fontSize: textSize }]}>
+<Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}>
   Text size: {textSize}
 </Text>
 
 
 <View style={styles.card}> 
+    <Text style={styles.space}> </Text>
     <Ionicons name="settings-outline" size={60} color="black" style={{ alignSelf: 'center'}}/>
     <Text style={styles.space}> </Text>
-    <Text style={[styles.text, { fontSize: textSize }]}>
+    <Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}>
     Remember to press Save below.
     </Text>
     <Text style={styles.space}> </Text>
@@ -152,26 +156,26 @@ useEffect(() => {
 {/* Text size adjuster. */} 
     <FontAwesome5 name="text-height" size={30} color="black" style={{ alignSelf: 'center'}}/>
     <Text style={styles.space}> </Text>
-    <Text style={[styles.text, { fontSize: textSize, fontFamily: 'trebuchet-bold' }]}> Text size </Text>
+    <Text style={[styles.text, { fontSize: textSize, fontFamily: 'trebuchet-bold', lineHeight: textSize + 6 }]}> Text size </Text>
     <Text style={styles.space}> </Text>
-    <Text style={[styles.text, { fontSize: textSize }]}>
+    <Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}>
       Press - and + to adjust text size: 
     </Text>
     <Text style={styles.space}> </Text>
     <View style={styles.levelAdjuster}>
      <TouchableOpacity style={styles.levelButton} onPress={() => {setTextSize(prev => Math.max (12, prev - 1)); playClickSound()}}>
-    <Text style={[styles.levelText, { fontSize: textSize, fontFamily: 'trebuchet-bold' }]}>[-]   </Text> 
+    <Text style={[styles.levelText, { fontSize: textSize, fontFamily: 'trebuchet-bold', lineHeight: textSize + 6 }]}>[-]   </Text> 
     </TouchableOpacity>
 
-    <Text style={[styles.levelValue, { fontSize: textSize }]}>or</Text>
+    <Text style={[styles.levelValue, { fontSize: textSize, lineHeight: textSize + 6 }]}>or</Text>
  
     <TouchableOpacity style={styles.levelButton} onPress={() => {setTextSize(prev => Math.min(30, prev + 1)); playClickSound()}} >
-    <Text style={[styles.levelText, { fontSize: textSize, fontFamily: 'trebuchet-bold'  }]}>   [+]</Text>
+    <Text style={[styles.levelText, { fontSize: textSize, fontFamily: 'trebuchet-bold', lineHeight: textSize + 6  }]}>   [+]</Text>
     </TouchableOpacity>
     </View>
-    <Text style={styles.space}> </Text>
 
-    <Text style={[styles.text, { fontSize: textSize }]}>
+    <Text style={styles.space}> </Text>
+    <Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}>
     Then press Save below. 
     </Text>
     <Text style={styles.space}> </Text>
@@ -181,24 +185,24 @@ useEffect(() => {
 {/* Brightness adjuster. */}
     <AntDesign name="sun" size={50} color="black" style={{ alignSelf: 'center'}}/>
     <Text style={styles.space}> </Text>
-    <Text style={[styles.text, { fontSize: textSize, fontFamily: 'trebuchet-bold'  }]}>Brightness </Text>
+    <Text style={[styles.text, { fontSize: textSize, fontFamily: 'trebuchet-bold', lineHeight: textSize + 6 }]}>Brightness </Text>
     <Text style={styles.space}> </Text>
-    <Text style={[styles.text, { fontSize: textSize }]}>
+    <Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}>
       Press - and + to adjust screen brightness: 
     </Text>
     <Text style={styles.space}> </Text>
     <View style={styles.levelAdjuster}>
     <TouchableOpacity onPress={() => {changeBrightness(Math.max(0, brightness - 0.1 )); playClickSound()}}>
-    <Text style={[styles.levelText, { fontSize : textSize, fontFamily: 'trebuchet-bold'  }]}>[-]   </Text> </TouchableOpacity>
+    <Text style={[styles.levelText, { fontSize : textSize, fontFamily: 'trebuchet-bold', lineHeight: textSize + 6 }]}>[-]   </Text> </TouchableOpacity>
 
     <Text style={styles.space}> </Text>
-    <Text style={[styles.text, { fontSize: textSize }]}> or </Text>
+    <Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}> or </Text>
 
     <TouchableOpacity onPress={() => {changeBrightness(Math.min(1, brightness + 0.1)); playClickSound()}}>
-    <Text style={[styles.levelText, { fontSize: textSize, fontFamily: 'trebuchet-bold'  }]}>   [+]</Text> </TouchableOpacity> </View>  
+    <Text style={[styles.levelText, { fontSize: textSize, fontFamily: 'trebuchet-bold', lineHeight: textSize + 6 }]}>   [+]</Text> </TouchableOpacity> </View>  
   
     <Text style={styles.space}> </Text>
-    <Text style={[styles.text, { fontSize: textSize }]}>
+    <Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}>
     Then press Save below. 
     </Text>
     <Text style={styles.space}> </Text>
@@ -208,11 +212,7 @@ useEffect(() => {
 {/*  Sound effects adjuster. */}
     <Feather name="volume-2" size={45} color="black" style={{ alignSelf: 'center'}} />
     <Text style={styles.space}> </Text> 
-    <Text style={[styles.text, { fontSize: textSize, fontFamily: 'trebuchet-bold' }]}>Sound effects </Text>
-    <Text style={styles.space}> </Text>
-    <Text style={[styles.text, { fontSize: textSize }]}>
-      Would you like sound effects turned on? 
-    </Text>
+    <Text style={[styles.text, { fontSize: textSize, fontFamily: 'trebuchet-bold', lineHeight: textSize + 6 }]}>Sound effects: </Text>
     <Text style={styles.space}> </Text>
 
     <TouchableOpacity 
@@ -228,15 +228,15 @@ useEffect(() => {
           }
         }}
       style={{ padding: 10 }}>
-        <Text style={[styles.text, { fontSize: textSize, fontFamily: 'trebuchet-bold'  }]}>
+        <Text style={[styles.text, { fontSize: textSize, fontFamily: 'trebuchet-bold', lineHeight: textSize + 6 }]}>
           {soundEnabled 
-          ? "NO - Click here to turn off sound" 
-          : "YES - Click here to turn on sound"}
+          ? "Sound is currently ON - Click here to turn off sound" 
+          : "Sound is currently OFF - Click here to turn on sound"}
         </Text>
       </TouchableOpacity>
 
     <Text style={styles.space}> </Text>
-    <Text style={[styles.text, { fontSize: textSize }]}>
+    <Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}>
     Then press Save below. 
     </Text>
     <Text style={styles.space}> </Text>
@@ -244,7 +244,7 @@ useEffect(() => {
 
 {/* Save settings. */}
     <TouchableOpacity style={styles.buttonStyle} onPress={() => { playClickSound(); saveSettings()}}>
-      <Text style={[styles.buttonText, { fontSize: textSize }]}> SAVE    
+      <Text style={[styles.buttonText, { fontSize: textSize, lineHeight: textSize + 6 }]}> SAVE    
       </Text>
     </TouchableOpacity>  
 
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
   heading:        { fontFamily: 'trebuchet-bold', color: '#FFFFFF', marginBottom: 16 },
   instruction:    { fontFamily: 'trebuchet', color: '#FFFFFF', lineHeight: 26 },
   buttonStyle:    { backgroundColor: '#FFFFFF', borderRadius: 12, padding: 16, alignItems: 'center', marginTop: 12, marginRight: 16 },
-  buttonText:     { fontFamily: 'trebuchet', color: '#262626', fontSize: 16 },
+  buttonText:     { fontFamily: 'trebuchet-bold', color: '#262626', fontSize: 16 },
   card:           { backgroundColor: "#FFFFFF",paddingVertical: 10, paddingHorizontal: 5, borderRadius: 10, marginBottom: 10, marginRight: 16 },
   cardContent:    { flex: 1, flexDirection: 'row', alignItems: 'center' },
   cardContainer:  { marginLeft: 1, flex: 1 },

@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useAudioPlayer} from 'expo-audio';
+import { useFonts } from 'expo-font';
 
 export default function ViewScreen({ route, navigation }) {
   const { entry } = route.params;
@@ -41,13 +42,25 @@ useEffect(() => {
     if (!soundEnabled) return;
     clickPlayer.play();
   }; 
-  
+
+// Loading approved font.
+  const [fontsLoaded] = useFonts({
+    'trebuchet': require('../assets/fonts/trebuchet-reg.ttf'), 
+    'trebuchet-bold': require('../assets/fonts/trebuchet-bold.ttf'),
+  });
+  if (!fontsLoaded) {
+    return null; 
+  } 
+
 // Header section.
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBarContainer}>
         <View style={[styles.topBarCell, { alignItems: 'flex-start' }]}>
-          <TouchableOpacity onPress={() => {playClickSound(); navigation.goBack()}}>
+          <TouchableOpacity onPress={() => {playClickSound(); 
+          setTimeout(() => {
+            navigation.goBack();
+            }, 300);}}>
           <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
           </TouchableOpacity>
         </View>
@@ -72,8 +85,8 @@ useEffect(() => {
 
 <ScrollView>
 
-      <Text style={[styles.heading, { fontSize: textSize }]}>VIEW CONTACT DETAILS</Text>
-      <Text style={[styles.instruction, { fontSize: textSize }]}>
+      <Text style={[styles.heading, { fontSize: textSize, lineHeight: textSize + 6 }]}>VIEW CONTACT DETAILS</Text>
+      <Text style={[styles.instruction, { fontSize: textSize, lineHeight: textSize + 6 }]}>
         Select a name to see contact details:{' '}
       </Text>
       <Text style={styles.space}> </Text>
@@ -83,23 +96,30 @@ useEffect(() => {
 {/* Display of contact details. */}
         <View style={styles.card}> 
           <Image source={require('../assets/images/personIcon.png')} style={styles.icon} />
-          <Text style={[styles.nameField, { fontSize: textSize + 5 }]}>{entry.name}</Text>
+          <Text style={[styles.nameField, { fontSize: textSize + 5, lineHeight: textSize + 6 }]}>{entry.name}</Text>
           <Text style={styles.space}> </Text>
-          <Text style={[styles.text, { fontSize: textSize }]}>
-            <Text style={[styles.otherFields, { fontSize: textSize }]}>DEPARTMENT: </Text> {entry.department}</Text>
-          <Text style={[styles.text, { fontSize: textSize }]}> 
-            <Text style={[styles.otherFields, { fontSize: textSize }]}>PHONE: </Text>{entry.phone} </Text>
-            <Text style={[styles.otherFields, { fontSize: textSize }]}>ADDRESS: </Text>
-          <Text style={[styles.text, { fontSize: textSize }]}>{entry.addressStreet}</Text>
-          <Text style={[styles.text, { fontSize: textSize }]}>{entry.addressCity}</Text>
-          <Text style={[styles.text, { fontSize: textSize }]}>{entry.addressState}</Text>
-          <Text style={[styles.text, { fontSize: textSize }]}>{entry.addressZIP}</Text>
-          <Text style={[styles.text, { fontSize: textSize }]}>{entry.addressCountry}</Text> 
+          <Text style={styles.space}> </Text>
+          <Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}>
+            <Text style={[styles.otherFields, { fontSize: textSize, lineHeight: textSize + 6 }]}>DEPARTMENT: </Text> {entry.department}</Text>
+          <Text style={styles.space}> </Text>
+          <Text style={styles.space}> </Text>
+          <Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}> 
+          <Text style={[styles.otherFields, { fontSize: textSize, lineHeight: textSize + 6 }]}>PHONE: </Text>{entry.phone} </Text>
+          <Text style={styles.space}> </Text>
+          <Text style={styles.space}> </Text>
+          <Text style={[styles.otherFields, { fontSize: textSize, lineHeight: textSize + 6 }]}>ADDRESS: </Text>
+          <Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}>{entry.addressStreet}</Text>
+          <Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}>{entry.addressCity}</Text>
+          <Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}>{entry.addressState}</Text>
+          <Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}>{entry.addressZIP}</Text>
+          <Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}>{entry.addressCountry}</Text> 
+          <Text style={styles.space}> </Text>
+          <Text style={styles.space}> </Text>
         </View>
 
 {/* Edit contact details  */}
         <TouchableOpacity style={styles.buttonStyle} onPress={() => {playClickSound(); navigation.navigate('EditContact', { entry })}}>
-          <Text style={[styles.buttonText, { fontSize: textSize }]}> EDIT </Text>
+          <Text style={[styles.buttonText, { fontSize: textSize, lineHeight: textSize + 6 }]}> EDIT </Text>
         </TouchableOpacity>  
 
       </ScrollView>
@@ -109,20 +129,19 @@ useEffect(() => {
 
 const styles = StyleSheet.create({
   container:      { flex: 1, backgroundColor: '#262626', padding: 16 },
-  heading:        { color: '#FFFFFF', marginBottom: 16 },
-  instruction:    { color: '#FFFFFF', lineHeight: 26 }, 
+  heading:        { fontFamily: 'trebuchet-bold', color: '#FFFFFF', marginBottom: 16 },
+  instruction:    { fontFamily: 'trebuchet', color: '#FFFFFF', lineHeight: 26 }, 
   buttonStyle:    { backgroundColor: '#FFFFFF', borderRadius: 12, padding: 16, alignItems: 'center', marginTop: 12, marginRight: 16 }, 
-  buttonText:     { color: '#262626' },
+  buttonText:     { fontFamily: 'trebuchet-bold', color: '#262626' },
   card:           { backgroundColor: '#FFFFFF', paddingVertical: 10, paddingHorizontal: 5, borderRadius: 10, marginBottom: 10, marginRight: 16, alignItems: 'center' },
   cardContent:    { flex: 1, flexDirection: 'row', alignItems: 'center' },
-  cardName:       { marginLeft: 2 },
   cardContainer:  { marginLeft: 1, flex: 1 },
-  text:           { color: '#262626', alignSelf: 'center' },
+  text:           { fontFamily: 'trebuchet', color: '#262626', alignSelf: 'center' },
   space:          { fontSize: 8, color: 'black' },
   divider:        { height: 5, backgroundColor: '#CB6D4f', marginVertical: 15 },
   icon:           { width: 60, height: 75, resizeMode: 'contain', alignSelf: 'center', marginLeft: 1 },
-  nameField:      { color: '#262626', lineHeight: 26, fontWeight: 'bold' },
-  otherFields:    {color: '#262626', lineHeight: 26, fontWeight: 'bold' },
+  nameField:      { fontFamily: 'trebuchet-bold', color: '#262626', lineHeight: 26 },
+  otherFields:    { fontFamily: 'trebuchet-bold', color: '#262626', lineHeight: 26 },
   logo:           { width: 100, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },
   topBarContainer:{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }
 });

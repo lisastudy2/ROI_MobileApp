@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useAudioPlayer} from 'expo-audio';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useFonts } from 'expo-font';
 
 export default function Home({ navigation }) {
 
@@ -82,6 +83,15 @@ useEffect(() => {
     return stop;
   }, [navigation]);
 
+// Loading approved font.
+  const [fontsLoaded] = useFonts({
+    'trebuchet': require('../assets/fonts/trebuchet-reg.ttf'), 
+    'trebuchet-bold': require('../assets/fonts/trebuchet-bold.ttf'),
+  });
+  if (!fontsLoaded) {
+    return null; 
+  } 
+
 // Header section - includes elements which appear on each page + instructions for this page.
 return (
   <SafeAreaView style={styles.container}>
@@ -89,7 +99,10 @@ return (
     <View style={styles.topBarContainer}> 
 
       <View style={[styles.topBarCell, {alignItems: 'flex-start'}]}>
-          <TouchableOpacity onPress={() => {playClickSound(); navigation.goBack()}}>
+          <TouchableOpacity onPress={() => {playClickSound(); 
+          setTimeout(() => {
+            navigation.goBack();
+            }, 300);}}>
           <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
           </TouchableOpacity>
       </View>
@@ -116,13 +129,20 @@ return (
 
     ListHeaderComponent={
       <>
-      <Text style={[styles.heading, { fontSize: textSize }]}>VIEW CONTACTS</Text>
-      <Text style={[styles.instruction, { fontSize: textSize }]}>Select a name to see contact details. </Text>
+      <Text style={[styles.heading, { fontSize: textSize, lineHeight: textSize + 6 }]}>VIEW CONTACTS</Text>
+      <Text style={[styles.instruction, { fontSize: textSize, lineHeight: textSize + 6 }]}>Select a name to see contact details. </Text>
       <Text style={styles.space}> </Text>
-      <TextInput style={[styles.searchInput, { fontSize: textSize }]} placeholder="Search" value={searchText} onChangeText={setSearchText} onFocus={playClickSound}/>
+      <TextInput style={[styles.searchInput, { fontSize: textSize, lineHeight: textSize + 6 }]} placeholder="Search" value={searchText} onChangeText={setSearchText} onFocus={playClickSound}/>
       <View style={styles.divider} />
       </> 
     }
+
+  ListEmptyComponent={ searchText !== '' ? (
+      <Text style={{ color: '#FFFFFF', textAlign: 'center', marginTop: 20, marginRight: 16, fontSize: textSize }}>
+        No results found - Check spelling and try again. 
+      </Text>
+    ) : null
+  }
 // End of header section 
 
 // Display of contacts list. 
@@ -131,8 +151,8 @@ return (
         <TouchableOpacity style={styles.cardContent} onPress={() => {playClickSound(); navigation.navigate('ContactDetails', { entry: item })}}>
         <Image source={require('../assets/images/personIcon.png')} style={styles.icon}/>
         <View style={styles.cardContainer}>
-        <Text style={[styles.cardName, { fontSize: textSize }]}>{item.name}</Text>
-        <Text style={[styles.cardDepartment, { fontSize: textSize - 3 }]}>{item.department}</Text>
+        <Text style={[styles.cardName, { fontSize: textSize, lineHeight: textSize + 6 }]}>{item.name}</Text>
+        <Text style={[styles.cardDepartment, { fontSize: textSize - 3, lineHeight: textSize + 6 }]}>{item.department}</Text>
         </View>
       </TouchableOpacity>
       </View>
@@ -146,15 +166,15 @@ return (
 // Customisation of display. 
 const styles = StyleSheet.create({
   container:      { flex: 1, backgroundColor: '#262626', padding: 16 }, 
-  heading:        { color: '#FFFFFF', marginBottom: 16 },
-  instruction:    { color: '#FFFFFF', lineHeight: 26 },
+  heading:        { fontFamily: 'trebuchet-bold', color: '#FFFFFF', marginBottom: 16 },
+  instruction:    { fontFamily: 'trebuchet', color: '#FFFFFF', lineHeight: 26 },
   card:           { backgroundColor: "#FFFFFF",paddingVertical: 10, paddingHorizontal: 5, borderRadius: 10, marginBottom: 10, marginRight: 16},
   cardContent:    { flex:1, flexDirection: 'row', alignItems: 'center' },
-  cardName:       { marginLeft: 2 },
-  cardDepartment: { color: "black", marginLeft: 2 },
+  cardName:       { fontFamily: 'trebuchet-bold', marginLeft: 2 },
+  cardDepartment: { fontFamily: 'trebuchet', color: "black", marginLeft: 2 },
   cardContainer:  { marginLeft: 1, flex: 1 },
   space:          { fontSize: 8, color: "#262626" },
-  searchInput:    { height: 60, borderColor: '#ccc', backgroundColor: '#FFFFFF', borderWidth: 1, borderRadius: 8, paddingHorizontal: 10, marginBottom:1, marginRight: 16 },
+  searchInput:    { fontFamily: 'trebuchet', height: 60, borderColor: '#ccc', backgroundColor: '#FFFFFF', borderWidth: 1, borderRadius: 8, paddingHorizontal: 10, marginBottom:1, marginRight: 16 },
   divider:        { height: 5, backgroundColor: '#CB6D4f', marginVertical: 15 },
   logo:           { width: 100, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },
   icon:           { width: 60, height: 75, resizeMode: 'contain', alignSelf: 'flex-start', marginLeft: 1 },
