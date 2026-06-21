@@ -74,7 +74,7 @@ export default function ViewScreen({ route, navigation }) {
 
         await AsyncStorage.setItem('contacts', JSON.stringify(updatedContacts));
 
-        playDeleteSound();
+        playDeleteSound(); 
 
         setTimeout(() => {
           Alert.alert(
@@ -128,6 +128,10 @@ useEffect(() => {
     require('../assets/sounds/error.mp3')
   );
 
+    const deletePlayer = useAudioPlayer(
+    require('../assets/sounds/delete.mp3')
+  );
+
   const playClickSound = () => {
     if (!soundEnabled) return;
     clickPlayer.play();
@@ -140,6 +144,11 @@ useEffect(() => {
     const playErrorSound = () => {
     if (!soundEnabled) return;
     errorPlayer.play();
+  }; 
+
+    const playDeleteSound = () => {
+    if (!soundEnabled) return;
+    deletePlayer.play();
   }; 
 
 // Loading approved font.

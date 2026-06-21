@@ -87,11 +87,11 @@ useEffect(() => {
 
       <Text style={[styles.heading, { fontSize: textSize, lineHeight: textSize + 6 }]}>VIEW CONTACT DETAILS</Text>
       <Text style={[styles.instruction, { fontSize: textSize, lineHeight: textSize + 6 }]}>
-        Select a name to see contact details:{' '}
+        Press Edit to update details.
       </Text>
       <Text style={styles.space}> </Text>
       <View style={styles.divider} />
-{/* End of header section - */}
+{/* End of header section - */} 
 
 {/* Display of contact details. */}
         <View style={styles.card}> 
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   card:           { backgroundColor: '#FFFFFF', paddingVertical: 10, paddingHorizontal: 5, borderRadius: 10, marginBottom: 10, marginRight: 16, alignItems: 'center' },
   cardContent:    { flex: 1, flexDirection: 'row', alignItems: 'center' },
   cardContainer:  { marginLeft: 1, flex: 1 },
-  text:           { fontFamily: 'trebuchet', color: '#262626', alignSelf: 'center' },
+  text:           { fontFamily: 'trebuchet', color: '#262626', alignSelf: 'center', textAlign: 'center' },
   space:          { fontSize: 8, color: 'black' },
   divider:        { height: 5, backgroundColor: '#CB6D4f', marginVertical: 15 },
   icon:           { width: 60, height: 75, resizeMode: 'contain', alignSelf: 'center', marginLeft: 1 },

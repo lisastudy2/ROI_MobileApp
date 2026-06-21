@@ -212,13 +212,13 @@ useEffect(() => {
 {/*  Sound effects adjuster. */}
     <Feather name="volume-2" size={45} color="black" style={{ alignSelf: 'center'}} />
     <Text style={styles.space}> </Text> 
-    <Text style={[styles.text, { fontSize: textSize, fontFamily: 'trebuchet-bold', lineHeight: textSize + 6 }]}>Sound effects: </Text>
+    <Text style={[styles.text, { fontSize: textSize, fontFamily: 'trebuchet-bold', lineHeight: textSize + 6 }]}>Sound effects </Text>
     <Text style={styles.space}> </Text>
-
+ 
     <TouchableOpacity 
       onPress={async () => {
         const newSoundSetting = !soundEnabled;
-        setSoundEnabled(newSoundSetting);
+        setSoundEnabled(newSoundSetting); 
         await AsyncStorage.setItem(
         'soundEnabled',
         JSON.stringify(newSoundSetting)

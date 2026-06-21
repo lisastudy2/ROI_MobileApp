@@ -77,10 +77,10 @@ const handleAddContact = async () => {
       "Please make sure all questions have answers."
     );
     return;
-  }
+  } 
 
     const newContact = {id, name, department, phone, addressStreet, addressCity, addressState, addressZIP, addressCountry};
-
+ 
   try { 
     const existing = await AsyncStorage.getItem('contacts');
     const contacts = existing ? JSON.parse(existing) : [];

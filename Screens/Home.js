@@ -114,8 +114,8 @@ return (
 const styles = StyleSheet.create({ 
   container:    { flex: 1, backgroundColor: '#262626', padding: 16 },
   welcomeText:  { fontFamily: 'trebuchet-bold', color: '#FFFFFF', marginBottom: 1, marginTop: 1, alignSelf: 'center' },
-  instruction:  { fontFamily: 'trebuchet-bold', color: '#FFFFFF', lineHeight: 26, alignSelf: 'center', marginTop: 15, marginBottom: 15 },
+  instruction:  { fontFamily: 'trebuchet-bold', color: '#FFFFFF', lineHeight: 26, alignSelf: 'center', marginTop: 15, marginBottom: 15, textAlign: 'center' },
   buttonStyle:  { backgroundColor: '#FFFFFF', borderRadius: 10, padding: 20, alignItems: 'center', marginTop: 18, width:'70%', alignSelf:'center' },
-  buttonText:   { fontFamily: 'trebuchet-bold', color: '#262626' },
+  buttonText:   { fontFamily: 'trebuchet-bold', color: '#262626', textAlign: 'center' },
   logo:         { width: 200, height: 150, resizeMode: 'contain', alignSelf: 'center', marginBottom: 10 },
 });

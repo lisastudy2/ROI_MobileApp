@@ -13,14 +13,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
-export default function App() { 
+export default function App() {  
   // Navigation setup. 
-  return (
+  return ( 
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Home" component={Home} /> 
         <Stack.Screen name="ContactsList" component={ContactsList} />
         <Stack.Screen name="ContactDetails" component={ContactDetails} />
         <Stack.Screen name="AddContact" component={AddContact} />
