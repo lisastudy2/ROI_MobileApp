@@ -150,8 +150,6 @@ const styles = StyleSheet.create({
   container:      { flex: 1, backgroundColor: '#262626', padding: 16 }, 
   heading:        { fontFamily: 'trebuchet-bold', color: '#FFFFFF', marginBottom: 16 },
   instruction:    { fontFamily: 'trebuchet', color: '#FFFFFF', lineHeight: 26 },
-  buttonStyle:    { backgroundColor: '#FFFFFF', borderRadius: 12, padding: 16,alignItems: 'center', marginTop: 12 },
-  buttonText:     { fontFamily: 'trebuchet-bold', color: '#262626' },
   card:           { backgroundColor: "#FFFFFF",paddingVertical: 10, paddingHorizontal: 5, borderRadius: 10, marginBottom: 10, marginRight: 16},
   cardContent:    { flex:1, flexDirection: 'row', alignItems: 'center' },
   cardName:       { fontFamily: 'trebuchet-bold', marginLeft: 2},

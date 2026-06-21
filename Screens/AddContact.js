@@ -70,7 +70,17 @@ const [addressCountry, setAddressCountry] = useState('');
 
 // Saves new contact details - note alert only appears in app view not web view.
 const handleAddContact = async () => {
-  if ( !id || !name || !department || !phone ) {
+  if ( 
+  !id?.trim() ||
+  !name?.trim() ||
+  !department?.trim() ||
+  !phone?.trim() ||
+  !addressStreet?.trim() ||
+  !addressCity?.trim() ||
+  !addressState?.trim() ||
+  !addressZIP?.trim() ||
+  !addressCountry?.trim()
+   ) {
     playErrorSound();
     Alert.alert(
       "Missing details",
@@ -119,7 +129,7 @@ const handleAddContact = async () => {
           setTimeout(() => {
             navigation.goBack();
             }, 300);}}>
-          <Ionicons name="arrow-back" size={35} color="#FFFFFF"/>
+          <Ionicons name="arrow-back" size={35} color="#FFFFFF"/> 
           </TouchableOpacity>
         </View>
 
@@ -202,15 +212,8 @@ const styles = StyleSheet.create({
   buttonStyle:    { backgroundColor: '#FFFFFF', borderRadius: 12, padding: 16, alignItems: 'center', marginTop: 12, marginRight: 16 },
   buttonText:     { fontFamily: 'trebuchet-bold', color: '#262626' },
   card:           { backgroundColor: "#FFFFFF",paddingVertical: 10, paddingHorizontal: 5, borderRadius: 10, marginBottom: 10, marginRight: 16 },
-  cardContent:    { flex:1, flexDirection: 'row', alignItems: 'center' },
-  cardContainer:  { marginLeft: 1, flex: 1 },
   space:          { fontSize: 8, color: "#FFFFFF" }, 
   divider:        { height: 5, backgroundColor: '#CB6D4f', marginVertical: 15 },
-  icon:           { width: 60, height: 75, resizeMode: 'contain', alignSelf: 'center', marginLeft: 1 },
-  name:           { fontFamily: 'trebuchet', color: '#262626', lineHeight: 26 },
-  department:     { fontFamily: 'trebuchet', color: '#262626', lineHeight: 26 },
-  phone:          { fontFamily: 'trebuchet', color: '#262626', lineHeight: 26 },
-  address:        { fontFamily: 'trebuchet', color: '#262626', lineHeight: 26 },
   input:          { fontFamily: 'trebuchet', backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#262626', borderRadius: 10, padding: 10, marginVertical:5},
   logo:           { width: 110, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },
   topBarContainer:{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 },

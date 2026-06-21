@@ -134,8 +134,6 @@ const styles = StyleSheet.create({
   buttonStyle:    { backgroundColor: '#FFFFFF', borderRadius: 12, padding: 16, alignItems: 'center', marginTop: 12, marginRight: 16 }, 
   buttonText:     { fontFamily: 'trebuchet-bold', color: '#262626' },
   card:           { backgroundColor: '#FFFFFF', paddingVertical: 10, paddingHorizontal: 5, borderRadius: 10, marginBottom: 10, marginRight: 16, alignItems: 'center' },
-  cardContent:    { flex: 1, flexDirection: 'row', alignItems: 'center' },
-  cardContainer:  { marginLeft: 1, flex: 1 },
   text:           { fontFamily: 'trebuchet', color: '#262626', alignSelf: 'center', textAlign: 'center' },
   space:          { fontSize: 8, color: 'black' },
   divider:        { height: 5, backgroundColor: '#CB6D4f', marginVertical: 15 },
