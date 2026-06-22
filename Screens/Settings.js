@@ -10,7 +10,7 @@ import Feather from '@expo/vector-icons/Feather';
 import { useAudioPlayer} from 'expo-audio';
 import { useFonts } from 'expo-font';
 
-// Enable navigation. 
+// Enable navigation.  
 export default function Settings({ navigation }) { 
 
 // Settings state.
