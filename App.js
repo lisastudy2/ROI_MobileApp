@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { TextInput, View } from 'react-native';
 import Home from './Screens/Home';
 import ContactsList from './Screens/ContactsList';
 import ContactDetails from './Screens/ContactDetails';
@@ -9,12 +7,11 @@ import AddContact from './Screens/AddContact';
 import EditSelectContact from './Screens/EditSelectContact';
 import EditContact from './Screens/EditContact';
 import Settings from './Screens/Settings';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Navigation setup. 
 const Stack = createNativeStackNavigator();
 
 export default function App() {  
-  // Navigation setup. 
   return ( 
     <NavigationContainer>
       <Stack.Navigator

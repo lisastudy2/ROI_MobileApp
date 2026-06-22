@@ -7,6 +7,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { useAudioPlayer} from 'expo-audio';
 import { useFonts } from 'expo-font';
 
+// Enable navigation and bringing details in from another screen. 
 export default function ViewScreen({ route, navigation }) {
   const { entry } = route.params;
 
@@ -117,7 +118,7 @@ useEffect(() => {
           <Text style={styles.space}> </Text>
         </View>
 
-{/* Edit contact details  */}
+{/* Edit contact details button  */}
         <TouchableOpacity style={styles.buttonStyle} onPress={() => {playClickSound(); navigation.navigate('EditContact', { entry })}}>
           <Text style={[styles.buttonText, { fontSize: textSize, lineHeight: textSize + 6 }]}> EDIT </Text>
         </TouchableOpacity>  
@@ -127,6 +128,7 @@ useEffect(() => {
   );
 }
 
+// Style customisations. 
 const styles = StyleSheet.create({
   container:      { flex: 1, backgroundColor: '#262626', padding: 16 },
   heading:        { fontFamily: 'trebuchet-bold', color: '#FFFFFF', marginBottom: 16 },

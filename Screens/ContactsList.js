@@ -8,6 +8,7 @@ import { useAudioPlayer} from 'expo-audio';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useFonts } from 'expo-font';
 
+// Enable navigation. 
 export default function Home({ navigation }) {
 
 // Display saved text settings.
@@ -43,11 +44,18 @@ useEffect(() => {
     clickPlayer.play();
   }; 
   
+  
+// Contacts data.
   const [contacts, setContacts] = useState([]);
+  
+// Search input.
   const [searchText, setSearchText] = useState('');
+
+// Search filtering. 
   const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(searchText.toLowerCase())
-    );
+    contact.name.toLowerCase().includes(searchText.toLowerCase()));
+
+// Loading contacts from storage and merging with default data if needed. 
   const loadContacts = async () => {
     try { const data = await AsyncStorage.getItem('contacts');
     if (data !== null) {
@@ -78,6 +86,7 @@ useEffect(() => {
     loadContacts();
   }, []);
 
+// Reload contacts when screen comes into focus. 
   useEffect(() => { 
     const stop = navigation.addListener('focus', loadContacts);
     return stop;
@@ -92,7 +101,7 @@ useEffect(() => {
     return null; 
   } 
 
-// Header section - includes elements which appear on each page + instructions for this page.
+// Header section.
 return (
   <SafeAreaView style={styles.container}>
   
@@ -163,7 +172,7 @@ return (
 }
 // End of contacts list. 
 
-// Customisation of display. 
+// Style customisations. 
 const styles = StyleSheet.create({
   container:      { flex: 1, backgroundColor: '#262626', padding: 16 }, 
   heading:        { fontFamily: 'trebuchet-bold', color: '#FFFFFF', marginBottom: 16 },

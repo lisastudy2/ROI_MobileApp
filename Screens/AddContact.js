@@ -6,8 +6,9 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useAudioPlayer} from 'expo-audio';
 import { useFonts } from 'expo-font';
- 
-export default function ViewScreen({ route, navigation }) {
+
+// Enable navigation. 
+export default function ViewScreen({ navigation }) {
 
 // Display saved text settings.
 const [textSize, setTextSize] = useState(16);
@@ -68,7 +69,7 @@ const [addressState, setAddressState] = useState('');
 const [addressZIP, setAddressZIP] = useState('');
 const [addressCountry, setAddressCountry] = useState('');
 
-// Saves new contact details - note alert only appears in app view not web view.
+// Saves new contact details - Note: alert only appears in app view not web view.
 const handleAddContact = async () => {
   if ( 
   !id?.trim() ||
@@ -156,7 +157,7 @@ const handleAddContact = async () => {
       <View style={styles.divider} />
 {/* End of header section - */}
 
-{/* New contact form. - */}
+{/* New contact form. */}
       <View style={styles.card}>
         <AntDesign name="user-add" size={60} color="black" style={{ alignSelf: 'center'}}/>
 
@@ -172,7 +173,7 @@ const handleAddContact = async () => {
 
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
-         <Text style={[styles.formFields, { fontSize: textSize, lineHeight: textSize + 6 }]}>3. Which department are they in? </Text>
+        <Text style={[styles.formFields, { fontSize: textSize, lineHeight: textSize + 6 }]}>3. Which department are they in? </Text>
          <TextInput style={[styles.input, { fontSize: textSize, lineHeight: textSize + 6 }]} placeholder="Department" value={department} onChangeText={setDepartment} onFocus={playClickSound} />
         <Text style={styles.space}> </Text>
         <Text style={styles.space}> </Text>
@@ -203,7 +204,7 @@ const handleAddContact = async () => {
 }
 // End of form.
 
-// Customisation of display. 
+// Style customisations.  
 const styles = StyleSheet.create({
   container:      { flex: 1, backgroundColor: '#262626', padding: 16 }, 
   heading:        { fontFamily: 'trebuchet-bold', color: '#FFFFFF', marginBottom: 16 },
@@ -218,5 +219,3 @@ const styles = StyleSheet.create({
   logo:           { width: 110, height: 50, resizeMode: 'contain', alignSelf: 'flex-end', marginBottom: 10, marginRight: 16 },
   topBarContainer:{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 },
 });
-
-

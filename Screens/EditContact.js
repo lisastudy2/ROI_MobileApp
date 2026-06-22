@@ -7,9 +7,11 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { useAudioPlayer} from 'expo-audio';
 import { useFonts } from 'expo-font';
  
- // Contact details which need to pre-fill the form.
+// Enable navigation and bringing details in from another screen. 
 export default function ViewScreen({ route, navigation }) {
   const { entry } = route.params;
+
+// Contact details to pre-fill the form.
   const [id, setID] = useState(entry.id);
   const [name, setName] = useState(entry.name);
   const [department, setDepartment] = useState(entry.department);
@@ -20,28 +22,27 @@ export default function ViewScreen({ route, navigation }) {
   const [addressZIP, setAddressZIP] = useState(entry.addressZIP);
   const [addressCountry, setAddressCountry] = useState(entry.addressCountry);
 
-
-// Saves contact details. 
+// Saves updated contact details to AsyncStorage. 
   const handleUpdateContact = async () => {
 
-  if ( 
-  !id?.trim() ||
-  !name?.trim() ||
-  !department?.trim() ||
-  !phone?.trim() ||
-  !addressStreet?.trim() ||
-  !addressCity?.trim() ||
-  !addressState?.trim() ||
-  !addressZIP?.trim() ||
-  !addressCountry?.trim()
-   ) {
-    playErrorSound();
-    Alert.alert(
-      "Missing details",
-      "Please make sure all questions have answers."
-    );
-    return;
-  }
+    if ( 
+    !id?.trim() ||
+    !name?.trim() ||
+    !department?.trim() ||
+    !phone?.trim() ||
+    !addressStreet?.trim() ||
+    !addressCity?.trim() ||
+    !addressState?.trim() ||
+    !addressZIP?.trim() ||
+    !addressCountry?.trim()
+    ) {
+      playErrorSound();
+      Alert.alert(
+        "Missing details",
+        "Please make sure all questions have answers."
+      );
+      return;
+    }
   
     try { 
       const existing = await AsyncStorage.getItem('contacts');
@@ -68,7 +69,7 @@ export default function ViewScreen({ route, navigation }) {
     }
   };
 
-// Deleting contact details. 
+// Deleting contact from AsyncStorage.
     const handleDeleteContact = async () => {
       Alert.alert(
         "Delete Contact",
@@ -206,7 +207,9 @@ useEffect(() => {
   <Text style={[styles.instruction, { fontSize: textSize, lineHeight: textSize + 6 }]}>Please update details then save.</Text>
   <Text style={styles.space}> </Text>
   <View style={styles.divider} />
-{/* End of header section - */}
+{/* End of header section */}
+
+{/* Edit contact form */}
       <View style={styles.card}>
         <Image source={require('../assets/images/editIcon.png')} style={styles.icon} />
 
@@ -240,12 +243,14 @@ useEffect(() => {
         <TextInput style={[styles.input, { fontSize: textSize, lineHeight: textSize + 6 }]} placeholder="Country" value={addressCountry} onChangeText={setAddressCountry} />
       </View>
 
+{/* Save button */}
         <TouchableOpacity style={styles.buttonStyle} onPress={handleUpdateContact}>
           <Text style={[styles.buttonText, { fontSize: textSize, lineHeight: textSize + 6 }]}> SAVE UPDATES </Text>
         </TouchableOpacity> 
         
         <Text style={styles.space}> </Text>
 
+{/* Delete button */}
         <TouchableOpacity style={styles.buttonStyle} onPress={handleDeleteContact}>
         <Text style={[styles.buttonText, { fontSize: textSize, lineHeight: textSize + 6 }]}> DELETE CONTACT </Text>
         </TouchableOpacity>
@@ -256,8 +261,9 @@ useEffect(() => {
     </SafeAreaView> 
   );
 }
+// End of editing form. 
  
-
+// Style customisations. 
 const styles = StyleSheet.create({
   container:      { flex: 1, backgroundColor: '#262626', padding: 16 }, 
   heading:        { fontFamily: 'trebuchet-bold', fontSize: 20, color: '#FFFFFF', marginBottom: 16 },

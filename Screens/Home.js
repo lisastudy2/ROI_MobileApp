@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAudioPlayer} from 'expo-audio';
 import { useFonts } from 'expo-font';
 
+// Enable navigation.
 export default function Home({ navigation }) {
 
 // Display saved text settings.
@@ -49,7 +50,7 @@ useEffect(() => {
     return null; 
   } 
   
-// Header section - includes elements which appear on each page + instructions for this page.
+// Header section - shorter compared to other screens. 
 return (
   <SafeAreaView style={styles.container}>
     <ScrollView>
@@ -109,8 +110,9 @@ return (
   </ScrollView>
   </SafeAreaView> 
 ); }
+// End of menu options. 
 
-// Customisation of display. 
+// Style customisations. 
 const styles = StyleSheet.create({ 
   container:    { flex: 1, backgroundColor: '#262626', padding: 16 },
   welcomeText:  { fontFamily: 'trebuchet-bold', color: '#FFFFFF', marginBottom: 1, marginTop: 1, alignSelf: 'center' },

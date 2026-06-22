@@ -8,18 +8,21 @@ import { useAudioPlayer} from 'expo-audio';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useFonts } from 'expo-font';
 
+// Enable navigation. 
 export default function Home({ navigation }) {
 
+// Contacts data.
 const [contacts, setContacts] = useState([]);
 
-// Search functionality.
+// Search input.
 const [searchText, setSearchText] = useState('');
+
+// Search filtering. 
 const filteredContacts = Array.isArray(contacts)
   ? contacts.filter(contact =>
-    contact.name.toLowerCase().includes(searchText.toLowerCase())
-    ) : [];
+    contact.name.toLowerCase().includes(searchText.toLowerCase())) : [];
 
-// Loading contacts list. 
+// Loading contacts from AsyncStorage or default data. 
 const loadContacts = async () => {
   const data = await AsyncStorage.getItem('contacts');
     if (data) {
@@ -29,6 +32,7 @@ const loadContacts = async () => {
     }
   }; 
 
+// Reload contacts when screen comes into focus. 
   useEffect(() => { 
     const stop = navigation.addListener('focus', loadContacts);
     return stop;
@@ -129,6 +133,7 @@ return (
   }
 // End of header section 
 
+// Display list of contacts for editing selection.  
     renderItem={({ item }) => (
       <View style={styles.card}>
         <TouchableOpacity style={styles.cardContent} onPress={() => {playClickSound(); navigation.navigate('EditContact', { entry: item })}}>
@@ -146,6 +151,7 @@ return (
 );
 }
 
+// Style customisations. 
 const styles = StyleSheet.create({
   container:      { flex: 1, backgroundColor: '#262626', padding: 16 }, 
   heading:        { fontFamily: 'trebuchet-bold', color: '#FFFFFF', marginBottom: 16 },

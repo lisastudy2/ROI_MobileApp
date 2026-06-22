@@ -10,12 +10,15 @@ import Feather from '@expo/vector-icons/Feather';
 import { useAudioPlayer} from 'expo-audio';
 import { useFonts } from 'expo-font';
 
+// Enable navigation. 
 export default function Settings({ navigation }) { 
 
-// Settings for the page. 
+// Settings state.
 const [textSize, setTextSize] = useState(16);
 const [brightness, setBrightness] = useState(0.5);
 const [soundEnabled, setSoundEnabled] = useState(true);
+
+// Save updated settings to AsyncStorage.
 const saveSettings = async () => { 
   try { await AsyncStorage.setItem('textSize', textSize.toString());
         await AsyncStorage.setItem('brightness', brightness.toString());
@@ -33,39 +36,40 @@ const saveSettings = async () => {
   ); 
 }, 100);
 
-} catch (e) { console.log('Error with text size'); }};
+} catch (e) { console.log('Error saving settings'); }};
 
-
+// Load saved settings. 
 useEffect(() => { 
   const loadSettings = async () => {  
     try {
-      // Loading text size.
+
+      // Load text size.
       const savedSize = await AsyncStorage.getItem('textSize'); 
       if (savedSize) { 
         setTextSize(parseFloat(savedSize));} 
 
-    // Loading brightness.
-    const savedBrightness = await AsyncStorage.getItem('brightness');
-    if (savedBrightness) { 
-      const value = parseFloat(savedBrightness); 
-      setBrightness(value);
-    await Brightness.setSystemBrightnessAsync(value);}
+      // Load brightness.
+      const savedBrightness = await AsyncStorage.getItem('brightness');
+      if (savedBrightness) { 
+        const value = parseFloat(savedBrightness); 
+        setBrightness(value);
+        await Brightness.setSystemBrightnessAsync(value);}
 
-    // Loading sounds.
-    const savedSound = await AsyncStorage.getItem('soundEnabled');
-    if (savedSound === null) {
-      await AsyncStorage.setItem('soundEnabled', JSON.stringify(true));
-      setSoundEnabled(true);
-    } else {
-      setSoundEnabled(JSON.parse(savedSound));
-      } 
+      // Load sounds.
+      const savedSound = await AsyncStorage.getItem('soundEnabled');
+      if (savedSound === null) {
+        await AsyncStorage.setItem('soundEnabled', JSON.stringify(true));
+        setSoundEnabled(true);
+      } else {
+        setSoundEnabled(JSON.parse(savedSound));
+        } 
 
     } catch (e) {
-        console.log('Error loading settings');}};
-    
+         console.log('Error loading settings');}};
+      
   loadSettings();},[]);
  
-  // Brightness setup.
+// Brightness setup.
   const changeBrightness = async (value) => {
   try {
     await Brightness.requestPermissionsAsync();
@@ -94,7 +98,7 @@ useEffect(() => {
     return null; 
   } 
 
-// Header section - includes elements which appear on each page + instructions for this page.
+// Header section.
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBarContainer}>
@@ -124,19 +128,16 @@ useEffect(() => {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView>
+      <ScrollView>  
       <Text style={[styles.heading, { fontSize: textSize, lineHeight: textSize + 6 }]}>CHANGE SETTINGS</Text>
       <Text style={[styles.instruction, { fontSize: textSize, lineHeight: textSize + 6 }]}>
         Update settings below and press Save.{' '}
       </Text>
       <Text style={styles.space}> </Text>
       <View style={styles.divider} />
-{/* End of header section - */}
-<Text style={[styles.text, { fontSize: textSize, lineHeight: textSize + 6 }]}>
-  Text size: {textSize}
-</Text>
+{/* End of header section */}
 
-
+{/* Settings save reminder */}
 <View style={styles.card}> 
     <Text style={styles.space}> </Text>
     <Ionicons name="settings-outline" size={60} color="black" style={{ alignSelf: 'center'}}/>
@@ -253,7 +254,7 @@ useEffect(() => {
   );
 } 
 
-// Customisation of display. 
+// Style customisations. 
 const styles = StyleSheet.create({
   container:      { flex: 1, backgroundColor: '#262626', padding: 16 }, 
   heading:        { fontFamily: 'trebuchet-bold', color: '#FFFFFF', marginBottom: 16 },
