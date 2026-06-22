@@ -6,4 +6,4 @@ The ROI Staff Directory Mobile Application is a private app which is accessible 
 
 This webpage will not be accessible via the public Google Play Store as it is for internal business use only.
 
-The application will only operate on Android devices. 
+The application will only operate on Android devices.  
